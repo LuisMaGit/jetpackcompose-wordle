@@ -7,7 +7,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import com.luisma.core_ui.theme.WTheme
 import com.luisma.core_ui.theme.WThemeProvider
-import com.luisma.core_ui.theme.WTypeSizeContract
+import com.luisma.core_ui.theme.WFontSize
 
 @Composable
 fun StatIndicator(
@@ -24,7 +24,7 @@ fun StatIndicator(
         WText(
             text = value,
             wTextType = WTextType.T1,
-            fontSize = WTypeSizeContract.k32,
+            fontSize = WFontSize.k32,
             color = colors.placeholderGreen
         )
         WText(

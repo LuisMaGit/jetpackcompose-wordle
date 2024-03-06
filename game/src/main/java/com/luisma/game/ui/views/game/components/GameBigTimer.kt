@@ -10,7 +10,7 @@ import com.luisma.core_ui.components.WText
 import com.luisma.core_ui.components.WTextType
 import com.luisma.core_ui.theme.WTheme
 import com.luisma.core_ui.theme.WThemeProvider
-import com.luisma.core_ui.theme.WTypeSizeContract
+import com.luisma.core_ui.theme.WFontSize
 import com.luisma.game.models.NextWordDuration
 
 @Composable
@@ -66,7 +66,7 @@ private fun Letters(
         modifier = modifier,
         wTextType = WTextType.T1,
         color = WTheme.colors.placeholderFill,
-        fontSize = WTypeSizeContract.k32,
+        fontSize = WFontSize.k32,
         text = value,
     )
 }
@@ -79,7 +79,7 @@ private fun Time(
     WText(
         modifier = modifier,
         wTextType = WTextType.T1,
-        fontSize = WTypeSizeContract.k32,
+        fontSize = WFontSize.k32,
         text = value,
     )
 }

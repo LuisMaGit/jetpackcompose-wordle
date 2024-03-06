@@ -1,6 +1,7 @@
 package com.luisma.core.services.db_services
 
 import com.luisma.core.models.db.UserWordsEntity
+import com.luisma.core.models.db.UserWordsPlayingStateContract
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
@@ -23,15 +24,17 @@ class UserWordsSqlService(
 
     suspend fun setCurrentlyPlayingWord(
         wordId: Int,
-        lastUpdate: String
+        lastUpdate: String,
+        playingStateContract: UserWordsPlayingStateContract
     ): Boolean {
         return withContext(dispatcher) {
             try {
-                dbSqlService.wordsQueries()
-                    .setCurrentlyPlayingWord(
-                        wordId.toLong(),
-                        lastUpdate
-                    )
+                dbSqlService.wordsQueries().setCurrentlyPlayingWord(
+                    wordId.toLong(),
+                    lastUpdate,
+                    playingStateContract.dbValue
+                )
+
                 true
             } catch (e: Exception) {
                 false
@@ -72,7 +75,7 @@ class UserWordsSqlService(
         letters: String,
         lastUpdate: String,
         wordId: Int,
-        solvedInTime: Boolean
+        playingState: UserWordsPlayingStateContract
     ): Boolean {
         return withContext(dispatcher) {
             try {
@@ -80,7 +83,7 @@ class UserWordsSqlService(
                     letters = letters,
                     last_update = lastUpdate,
                     word_id = wordId.toLong(),
-                    solved_in_time = if (solvedInTime) 1 else 0
+                    playing_state = playingState.dbValue
                 )
                 true
             } catch (e: Exception) {
@@ -101,15 +104,41 @@ class UserWordsSqlService(
         }
     }
 
-    suspend fun selectSolvedPlayedCount(): Int? {
+    suspend fun selectGamesPlayedCountByPlayingState(
+        playingStateContract: UserWordsPlayingStateContract
+    ): Int? {
         return withContext(dispatcher) {
             try {
                 dbSqlService.wordsQueries()
-                    .selectSolvedGamesPlayedCount()
+                    .selectGamesPlayedCountByPlayingState(
+                        playingStateContract.dbValue
+                    )
                     .executeAsOne().toInt()
             } catch (e: Exception) {
                 null
             }
         }
     }
+
+    suspend fun selectGamesPlayedByPlayingState(
+        limit: Int,
+        offset: Int,
+        states: List<UserWordsPlayingStateContract>
+    ): List<UserWordsEntity> {
+        return withContext(dispatcher) {
+            try {
+                val db = dbSqlService.wordsQueries()
+                    .selectGamesPlayedByPlayingState(
+                        playing_state = states.map { it.dbValue },
+                        limit = limit.toLong(),
+                        offset = offset.toLong()
+                    ).executeAsList()
+                db.map { UserWordsEntity.fromDB(it) }
+            } catch (e: Exception) {
+                emptyList()
+            }
+        }
+    }
+
+
 }

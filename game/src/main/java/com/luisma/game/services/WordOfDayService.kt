@@ -1,5 +1,6 @@
 package com.luisma.game.services
 
+import com.luisma.core.models.db.UserWordsPlayingStateContract
 import com.luisma.core.models.db.WordEntity
 import com.luisma.core.services.NumbService
 import com.luisma.core.services.TimeService
@@ -84,8 +85,10 @@ class WordOfDayService(
         }
 
         // update user stats if the word was not solved
-        val wodSolved = userWordsSqlService.selectWordById(wordId = wod.wordId)?.solvedInTime
-        if (wodSolved != null && !wodSolved) {
+        val playingState = userWordsSqlService.selectWordById(wordId = wod.wordId)?.playingState
+        if (playingState != null &&
+            playingState != UserWordsPlayingStateContract.SOLVED_IN_TIME
+        ) {
             userStatsService.setUserStats(doneAtTry = 0, isAWin = false)
         }
 

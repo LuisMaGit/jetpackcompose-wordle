@@ -12,23 +12,23 @@ object WType {
     val t1 = TextStyle(
         fontFamily = nunitoFontFamily,
         fontWeight = FontWeight.ExtraBold,
-        fontSize = WTypeSizeContract.k16,
+        fontSize = WFontSize.k16,
     )
 
     val t2 = TextStyle(
         fontFamily = nunitoFontFamily,
         fontWeight = FontWeight.Bold,
-        fontSize = WTypeSizeContract.k16,
+        fontSize = WFontSize.k16,
     )
 
     val t3 = TextStyle(
         fontFamily = nunitoFontFamily,
         fontWeight = FontWeight.Normal,
-        fontSize = WTypeSizeContract.k16,
+        fontSize = WFontSize.k16,
     )
 }
 
-object WTypeSizeContract {
+object WFontSize {
     val k12 = 12.sp
     val k16 = 16.sp
     val k20 = 20.sp

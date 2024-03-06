@@ -13,7 +13,7 @@ internal fun GameLoading() {
     Column(
         modifier = Modifier.fillMaxSize(),
     ) {
-        GameAppbar(onTapStats = null)
+        GameAppbar()
         Box(
             modifier = Modifier.fillMaxSize(),
             contentAlignment = Alignment.Center,

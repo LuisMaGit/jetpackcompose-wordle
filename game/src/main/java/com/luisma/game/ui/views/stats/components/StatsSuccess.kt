@@ -16,7 +16,7 @@ import com.luisma.core_ui.components.WText
 import com.luisma.core_ui.components.WTextType
 import com.luisma.core_ui.theme.WSpacing
 import com.luisma.core_ui.theme.WThemeProvider
-import com.luisma.core_ui.theme.WTypeSizeContract
+import com.luisma.core_ui.theme.WFontSize
 import com.luisma.game.models.GameUserStats
 import com.luisma.game.models.GameUserStatsWinDistribution
 import com.luisma.game.ui.views.stats.StatsState
@@ -39,7 +39,7 @@ internal fun StatsSuccess(
         WText(
             text = stringResource(id = R.string.stats_title),
             wTextType = WTextType.T1,
-            fontSize = WTypeSizeContract.k28
+            fontSize = WFontSize.k28
         )
         Spacer(modifier = Modifier.padding(bottom = WSpacing.k18))
         // stats labels
@@ -55,7 +55,7 @@ internal fun StatsSuccess(
         WText(
             text = stringResource(id = R.string.stats_graph_title),
             wTextType = WTextType.T1,
-            fontSize = WTypeSizeContract.k28
+            fontSize = WFontSize.k28
         )
         Spacer(modifier = Modifier.padding(bottom = WSpacing.k18))
         // win distribution graphs

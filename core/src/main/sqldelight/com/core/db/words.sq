@@ -6,8 +6,8 @@ WHERE currently_playing = 1
 LIMIT 1;
 
 setCurrentlyPlayingWord:
-INSERT INTO user_words (word_rowid, last_update, currently_playing, solved_in_time)
-VALUES (:word_rowid, :last_update, 1, 0);
+INSERT INTO user_words (word_rowid, last_update, currently_playing, playing_state)
+VALUES (:word_rowid, :last_update, 1, :playing_state);
 
 selectUserWordById:
 SELECT *
@@ -23,17 +23,25 @@ updateWord:
 UPDATE user_words
 SET letters = :letters,
     last_update = :last_update,
-    solved_in_time = :solved_in_time
+    playing_state = :playing_state
 WHERE word_rowid = :word_id;
 
 selectGamesPlayedCount:
 SELECT COUNT (*)
 FROM user_words;
 
-selectSolvedGamesPlayedCount:
+selectGamesPlayedCountByPlayingState:
 SELECT COUNT (*)
 FROM user_words
-WHERE solved_in_time = 1;
+WHERE playing_state = :playing_state;
+
+selectGamesPlayedByPlayingState:
+SELECT *
+FROM user_words
+WHERE playing_state IN ? AND currently_playing != 1
+ORDER BY rowid DESC
+LIMIT :limit
+OFFSET :offset;
 
 -- user_stats
 selectUserStats:

@@ -21,18 +21,17 @@ fun WLoader(
     val rotation by infiniteTransition.animateFloat(
         targetValue = 360f,
         initialValue = 0f,
-        label = "wloader",
+        label = "w_loader",
         animationSpec = infiniteRepeatable(
             animation = tween(1000, easing = LinearEasing),
             repeatMode = RepeatMode.Restart
         )
     )
-    CharBox(
-        modifier = modifier.graphicsLayer {
+    WLogo(
+        modifier = modifier
+            .graphicsLayer {
             rotationY = rotation
         },
-        charState = CharBoxType.CharOk,
-        char = 'P',
     )
 }
 

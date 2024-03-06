@@ -1,6 +1,7 @@
 package com.luisma.game.services
 
 import com.luisma.core.models.db.UserStatsEntity
+import com.luisma.core.models.db.UserWordsPlayingStateContract
 import com.luisma.core.services.db_services.StatsSqlService
 import com.luisma.core.services.db_services.UserWordsSqlService
 import com.luisma.game.models.GameUserStats
@@ -63,13 +64,15 @@ class UserStatsService(
 
     suspend fun getUserStats(): GameUserStats {
         val playedGames = userWordsSqlService.selectPlayedCount()
-        val solvedGames = userWordsSqlService.selectSolvedPlayedCount()
-        if (playedGames == null || solvedGames == null) {
+        val solvedInTimeGames = userWordsSqlService.selectGamesPlayedCountByPlayingState(
+            UserWordsPlayingStateContract.SOLVED_IN_TIME
+        )
+        if (playedGames == null || solvedInTimeGames == null) {
             return GameUserStats.empty()
         }
         val winedPercentage = getWinedPercentage(
             total = playedGames,
-            target = solvedGames
+            target = solvedInTimeGames
         )
 
         val statsEntity = statsSqlService.selectUserStats()
@@ -101,7 +104,6 @@ class UserStatsService(
             statsSqlService.setUserStats(statsEntity.copy(currentStreak = 0))
             return
         }
-
         // win
         // add new win values
         val currentStreak = statsEntity.currentStreak + 1

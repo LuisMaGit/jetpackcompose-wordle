@@ -5,7 +5,8 @@ sealed class GameEvents {
     object DeleteChar : GameEvents()
     object FinishHorizontalAnimation : GameEvents()
     data class SendChar(val char: Char) : GameEvents()
-    data class OpenStats(val showStats: Boolean) : GameEvents()
+    data class HandleStats(val showStats: Boolean) : GameEvents()
+    data class HandleTutorial(val showTutorial: Boolean) : GameEvents()
 
     data class FinishAppearAnimation(
         val rowIdx: Int,

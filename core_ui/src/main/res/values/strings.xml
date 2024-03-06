@@ -56,16 +56,13 @@
     <string name="stats_streak_record">Racha record</string>
     <string name="stats_graph_title">Distribución de aciertos</string>
     <!--    tutorial-->
-    <string name="tutorial_title">Cómo jugar?</string>
+    <string name="tutorial_title">¿Cómo jugar?</string>
     <string name="tutorial_subtitle">Adivina la palabra en 6 intentos.</string>
     <string name="tutorial_bullet_point_1">Cada intento debe ser una palabra válida de 5 letras.</string>
     <string name="tutorial_bullet_point_2">El color de las celdas cambiará en función de cuan cerca estuvo el intento.</string>
     <string name="tutorial_example_title">Ejemplos</string>
     <string name="tutorial_example_1">está en la palabra y en el lugar correcto.</string>
-    <string name="tutorial_example_1_char">A</string>
     <string name="tutorial_example_2">está en la palabra pero no en el lugar correcto.</string>
-    <string name="tutorial_example_2_char">E</string>
     <string name="tutorial_example_3">no está en la palabra en ningún lugar.</string>
-    <string name="tutorial_example_3_char">I</string>
     <string name="tutorial_new_word">Una nueva palabra es publicada cada 24h.</string>
 </resources>

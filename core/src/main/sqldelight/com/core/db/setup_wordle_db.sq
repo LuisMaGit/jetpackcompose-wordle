@@ -11,7 +11,7 @@ CREATE TABLE user_words (
  	letters TEXT,
  	last_update TEXT,
  	currently_playing INTEGER NOT NULL,
- 	solved_in_time INTEGER NOT NULL
+ 	playing_state INTEGER NOT NULL
 );
 
 CREATE TABLE user_stats(

@@ -27,11 +27,11 @@ import com.luisma.core_ui.components.WText
 import com.luisma.core_ui.components.WTextType
 import com.luisma.core_ui.helpers.ScreenSizeHelper
 import com.luisma.core_ui.theme.WColorContract
+import com.luisma.core_ui.theme.WFontSize
 import com.luisma.core_ui.theme.WScreenFractions
 import com.luisma.core_ui.theme.WSpacing
 import com.luisma.core_ui.theme.WTheme
 import com.luisma.core_ui.theme.WThemeProvider
-import com.luisma.core_ui.theme.WTypeSizeContract
 import com.luisma.game.models.GameEnabledKeyState
 import com.luisma.game.models.ListCharsWithState
 import com.luisma.game.models.NextWordDuration
@@ -86,7 +86,9 @@ internal fun GameSuccess(
                 )
         ) {
             GameAppbar(
-                onTapStats = { events(GameEvents.OpenStats(showStats = true)) }
+                onTapStats = { events(GameEvents.HandleStats(showStats = true)) },
+                onTapTutorial = { events(GameEvents.HandleTutorial(showTutorial = true)) }
+
             )
             Spacer(modifier = Modifier.padding(bottom = WSpacing.k5))
             // grid
@@ -196,13 +198,13 @@ private fun GameCorrectWordAndHeader(
         WText(
             text = stringResource(id = R.string.game_lose_title),
             wTextType = WTextType.T1,
-            fontSize = WTypeSizeContract.k32,
+            fontSize = WFontSize.k32,
             color = WColorContract.placeholderFillDark
         )
         WText(
             text = stringResource(id = R.string.game_lose_subtitle),
             wTextType = WTextType.T2,
-            fontSize = WTypeSizeContract.k20,
+            fontSize = WFontSize.k20,
             color = WTheme.colors.placeholderFill
         )
         Box {
@@ -225,7 +227,7 @@ private fun GameBigTimerAndHeader(
         WText(
             text = stringResource(id = R.string.game_timer_header),
             wTextType = WTextType.T2,
-            fontSize = WTypeSizeContract.k20,
+            fontSize = WFontSize.k20,
             color = WTheme.colors.placeholderFill
         )
         GameBigTimer(

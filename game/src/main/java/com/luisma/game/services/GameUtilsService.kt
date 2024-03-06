@@ -15,6 +15,7 @@ import com.luisma.game.models.WChar
 import com.luisma.game.models.WCharAnimationState
 import com.luisma.game.models.WCharState
 import com.luisma.game.models.WKeyboard
+import kotlinx.collections.immutable.persistentMapOf
 import kotlinx.collections.immutable.toImmutableList
 import kotlinx.collections.immutable.toImmutableMap
 import kotlinx.collections.immutable.toPersistentSet
@@ -27,7 +28,7 @@ class GameUtilsService {
      * if the word is guessed [ListCharsWithState.done] = true,
      *
      * e.g.
-     * [wordsWithSeparators] = "AACCE,AAF", [toGuessWord] = "ABCDE",
+     * [wordsWithSeparators] = "AACCE,AAF", [toGuessWord] = "ABCDE"
      * ```
      * result = mapOf(
      *  0 to ListCharsWithState(
@@ -437,10 +438,10 @@ class GameUtilsService {
 
     fun putAnimationStateToRow(
         rowIdx: Int,
-        lettersRow: LettersRows,
+        lettersRows: LettersRows,
         animationState: WCharAnimationState
     ): LettersRows {
-        val mutableLetterRows = lettersRow.toMutableMap()
+        val mutableLetterRows = lettersRows.toMutableMap()
         val mutableChars = mutableLetterRows[rowIdx]!!.chars.toMutableList()
         mutableLetterRows[rowIdx] = mutableLetterRows[rowIdx]!!.copy(
             chars = mutableChars.map {
@@ -449,6 +450,25 @@ class GameUtilsService {
                 )
             }.toImmutableList()
         )
+        return mutableLetterRows.toImmutableMap()
+    }
+
+    fun putAnimationStateCell(
+        rowIdx: Int,
+        columnIdx: Int,
+        lettersRows: LettersRows,
+    ): LettersRows {
+        val mutableLetterRows = lettersRows.toMutableMap()
+        val listChars = mutableLetterRows[rowIdx]
+            ?.chars?.toMutableList()
+            ?: return persistentMapOf()
+        listChars[columnIdx] = listChars[columnIdx].copy(
+            animationState = WCharAnimationState.Still
+        )
+        mutableLetterRows[rowIdx] = mutableLetterRows[rowIdx]?.copy(
+            chars = listChars.toImmutableList()
+        ) ?: return persistentMapOf()
+
         return mutableLetterRows.toImmutableMap()
     }
 }

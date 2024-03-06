@@ -16,8 +16,8 @@ import com.luisma.game.ui.views.game.GameEvents
 import com.luisma.game.ui.views.game.GameViewModel
 import com.luisma.game.ui.views.stats.StatsBs
 import com.luisma.game.ui.views.stats.StatsViewModel
+import com.luisma.game.ui.views.tutorial.TutorialBs
 import dagger.hilt.android.AndroidEntryPoint
-
 
 @AndroidEntryPoint
 class MainActivity : ComponentActivity() {
@@ -44,13 +44,22 @@ class MainActivity : ComponentActivity() {
                         StatsBs(
                             onDismiss = {
                                 gameViewModel.sendEvent(
-                                    GameEvents.OpenStats(showStats = false)
+                                    GameEvents.HandleStats(showStats = false)
                                 )
                             },
                             state = statsState,
                             events = { event -> statsViewModel.sendEvent(event) }
                         )
                     }
+                    // tutorial bs
+                    if (gameState.showTutorial)
+                        TutorialBs(
+                            onDismissRequest = {
+                                gameViewModel.sendEvent(
+                                    GameEvents.HandleTutorial(showTutorial = false)
+                                )
+                            }
+                        )
                 }
             }
         }

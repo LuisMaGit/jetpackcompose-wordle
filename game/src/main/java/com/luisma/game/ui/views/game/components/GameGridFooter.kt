@@ -16,7 +16,7 @@ import com.luisma.core_ui.components.WText
 import com.luisma.core_ui.components.WTextType
 import com.luisma.core_ui.theme.WTheme
 import com.luisma.core_ui.theme.WThemeProvider
-import com.luisma.core_ui.theme.WTypeSizeContract
+import com.luisma.core_ui.theme.WFontSize
 import com.luisma.game.models.NextWordDuration
 
 
@@ -106,7 +106,7 @@ private fun FooterText(
     WText(
         text = text,
         wTextType = WTextType.T2,
-        fontSize = WTypeSizeContract.k12,
+        fontSize = WFontSize.k12,
         color = WTheme.colors.placeholderBorder
     )
 }

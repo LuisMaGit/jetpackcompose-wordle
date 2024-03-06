@@ -3,6 +3,7 @@ package com.luisma.game.services
 import com.luisma.core.models.WDuration
 import com.luisma.core.models.WTime
 import com.luisma.core.models.db.UserWordsEntity
+import com.luisma.core.models.db.UserWordsPlayingStateContract
 import com.luisma.core.services.TimeService
 import com.luisma.core.services.db_services.UserWordsSqlService
 import com.luisma.core.services.db_services.WordsSqlService
@@ -61,7 +62,8 @@ class PlayingWordService(
     ): PlayingWord? {
         val responseSetCurrentlyPlaying = userWordsSqlService.setCurrentlyPlayingWord(
             wordId = wordOfDay.wordId,
-            lastUpdate = timeService.fromWTimeToStr(timeService.getWTimeNow())
+            lastUpdate = timeService.fromWTimeToStr(timeService.getWTimeNow()),
+            playingStateContract = UserWordsPlayingStateContract.PLAYING
         )
         if (!responseSetCurrentlyPlaying) {
             return null
@@ -146,7 +148,7 @@ class PlayingWordService(
     suspend fun updateCurrentlyPlayingWord(
         wordsWithSeparators: String,
         wordId: Int,
-        solvedInTime: Boolean
+        playingState: UserWordsPlayingStateContract
     ): Boolean {
         val lastUpdate = timeService.fromWTimeToStr(
             timeService.getWTimeNow()
@@ -155,7 +157,7 @@ class PlayingWordService(
             letters = wordsWithSeparators,
             wordId = wordId,
             lastUpdate = lastUpdate,
-            solvedInTime = solvedInTime
+            playingState = playingState
         )
     }
 
