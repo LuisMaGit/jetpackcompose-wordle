@@ -55,6 +55,7 @@ dependencies {
     // hilt
     implementation(Hilt.hiltAndroid)
     kapt(Hilt.hiltCompiler)
+
     // test
     testImplementation(Test.junit4)
     testImplementation(Test.mockkAgent)

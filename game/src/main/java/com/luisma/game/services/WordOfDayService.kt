@@ -3,13 +3,16 @@ package com.luisma.game.services
 import com.luisma.core.models.db.WordEntity
 import com.luisma.core.services.NumbService
 import com.luisma.core.services.TimeService
-import com.luisma.core.services.WordsSqlService
+import com.luisma.core.services.db_services.UserWordsSqlService
+import com.luisma.core.services.db_services.WordsSqlService
 import com.luisma.game.models.WordOfDay
 
 class WordOfDayService(
     private val timeService: TimeService,
     private val wordsSqlService: WordsSqlService,
-    private val numbService: NumbService
+    private val numbService: NumbService,
+    private val userStatsService: UserStatsService,
+    private val userWordsSqlService: UserWordsSqlService
 ) {
 
     private fun mapWODEntityToWOD(entity: WordEntity?): WordOfDay? {
@@ -79,6 +82,13 @@ class WordOfDayService(
         if (timeService.itHasNotBeen24HoursSince(wod.wordOfDayAt)) {
             return wod
         }
+
+        // update user stats if the word was not solved
+        val wodSolved = userWordsSqlService.selectWordById(wordId = wod.wordId)?.solvedInTime
+        if (wodSolved != null && !wodSolved) {
+            userStatsService.setUserStats(doneAtTry = 0, isAWin = false)
+        }
+
         // WOD deprecated -> remove current and set WOD
         return deprecateCurrentAndSetNewWOD(
             oldWODId = wod.wordId,

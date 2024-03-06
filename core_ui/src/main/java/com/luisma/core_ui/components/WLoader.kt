@@ -39,7 +39,7 @@ fun WLoader(
 
 @Preview
 @Composable
-fun WLoaderPrev() {
+private fun WLoaderPrev() {
     WThemeProvider {
         WLoader()
     }

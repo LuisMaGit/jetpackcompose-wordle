@@ -4,7 +4,8 @@ import com.luisma.core.models.WDuration
 import com.luisma.core.models.WTime
 import com.luisma.core.models.db.UserWordsEntity
 import com.luisma.core.services.TimeService
-import com.luisma.core.services.WordsSqlService
+import com.luisma.core.services.db_services.UserWordsSqlService
+import com.luisma.core.services.db_services.WordsSqlService
 import com.luisma.game.models.PlayingWord
 import com.luisma.game.models.PlayingWordDate
 import com.luisma.game.models.WordOfDay
@@ -16,6 +17,7 @@ class PlayingWordService(
     private val timeService: TimeService,
     private val wordsSqlService: WordsSqlService,
     private val wordOfDayService: WordOfDayService,
+    private val userWordsSqlService: UserWordsSqlService,
     private val gameUtilService: GameUtilsService
 ) {
 
@@ -57,7 +59,7 @@ class PlayingWordService(
     private suspend fun saveWODasCurrentlyPlayingAndGet(
         wordOfDay: WordOfDay
     ): PlayingWord? {
-        val responseSetCurrentlyPlaying = wordsSqlService.setCurrentlyPlayingWord(
+        val responseSetCurrentlyPlaying = userWordsSqlService.setCurrentlyPlayingWord(
             wordId = wordOfDay.wordId,
             lastUpdate = timeService.fromWTimeToStr(timeService.getWTimeNow())
         )
@@ -65,7 +67,7 @@ class PlayingWordService(
             return null
         }
         return mapCurrentlyPlayingEntityToPlayingWord(
-            wordsSqlService.selectCurrentlyPlaying()
+            userWordsSqlService.selectCurrentlyPlaying()
         )
     }
 
@@ -76,7 +78,7 @@ class PlayingWordService(
      * if exits and it is not the WOD is updated the currently playing word with the WOD
      */
     suspend fun getCurrentlyPlaying(): PlayingWord? {
-        val entityCurrentlyPlaying = wordsSqlService.selectCurrentlyPlaying()
+        val entityCurrentlyPlaying = userWordsSqlService.selectCurrentlyPlaying()
 
         // no playing word in db
         if (entityCurrentlyPlaying == null) {
@@ -95,7 +97,7 @@ class PlayingWordService(
         }
 
         // playing word in db and it is NOT WOD -> update currently playing
-        val responseRemoveCurrentlyPlaying = wordsSqlService.unsetCurrentlyPlayingWord(
+        val responseRemoveCurrentlyPlaying = userWordsSqlService.unsetCurrentlyPlayingWord(
             entityCurrentlyPlaying.wordId
         )
         if (!responseRemoveCurrentlyPlaying) return null
@@ -104,7 +106,7 @@ class PlayingWordService(
     }
 
     /**
-     * check if the [charsGuessed] is an accepted word (if exists in the db)
+     * check if the [guessedWord] is an accepted word (if exists in the db)
      */
     suspend fun resolveGuessedWord(
         guessedWord: String
@@ -143,15 +145,17 @@ class PlayingWordService(
      */
     suspend fun updateCurrentlyPlayingWord(
         wordsWithSeparators: String,
-        wordId: Int
+        wordId: Int,
+        solvedInTime: Boolean
     ): Boolean {
         val lastUpdate = timeService.fromWTimeToStr(
             timeService.getWTimeNow()
         )
-        return wordsSqlService.updateWord(
+        return userWordsSqlService.updateWord(
             letters = wordsWithSeparators,
             wordId = wordId,
-            lastUpdate = lastUpdate
+            lastUpdate = lastUpdate,
+            solvedInTime = solvedInTime
         )
     }
 

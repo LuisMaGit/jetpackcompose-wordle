@@ -28,6 +28,7 @@ data class GameState(
     val horizontalAnimationState: WCharRowAnimationState,
     // timer
     val nextWODDuration: NextWordDuration,
+    val showStats: Boolean,
 ) {
     companion object {
         fun default(): GameState {
@@ -42,7 +43,8 @@ data class GameState(
                 playingRow = emptyList(),
                 enabledKeyState = GameEnabledKeyState.allDisabled(),
                 correctWordWithState = ListCharsWithState.empty(),
-                horizontalAnimationState = WCharRowAnimationState.Still
+                horizontalAnimationState = WCharRowAnimationState.Still,
+                showStats = false,
             )
         }
     }

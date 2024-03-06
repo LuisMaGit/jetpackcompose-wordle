@@ -75,6 +75,7 @@ dependencies {
 
     // hilt
     implementation(Hilt.hiltAndroid)
+    implementation(Hilt.hiltNavigation)
     kapt(Hilt.hiltCompiler)
 
     // test

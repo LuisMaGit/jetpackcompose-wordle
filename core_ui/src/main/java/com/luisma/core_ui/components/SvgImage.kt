@@ -1,4 +1,4 @@
-   package com.luisma.core_ui.components
+package com.luisma.core_ui.components
 
 import androidx.annotation.DrawableRes
 import androidx.compose.material3.Icon

@@ -8,9 +8,9 @@ data class NextWordDuration(
     val hours: Int,
     val min: Int,
     val sec: Int,
-    val hoursStr : String,
-    val minStr : String,
-    val secStr : String,
+    val hoursStr: String,
+    val minStr: String,
+    val secStr: String,
 ) {
     companion object {
         fun zero(): NextWordDuration {

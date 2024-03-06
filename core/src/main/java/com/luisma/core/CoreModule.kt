@@ -4,7 +4,10 @@ import android.app.Application
 import com.luisma.core.services.NumbService
 import com.luisma.core.services.TimeService
 import com.luisma.core.services.TimeServiceNowProvider
-import com.luisma.core.services.WordsSqlService
+import com.luisma.core.services.db_services.DbSqlService
+import com.luisma.core.services.db_services.StatsSqlService
+import com.luisma.core.services.db_services.UserWordsSqlService
+import com.luisma.core.services.db_services.WordsSqlService
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -14,7 +17,6 @@ import java.time.LocalDateTime
 @Module
 @InstallIn(SingletonComponent::class)
 class CoreModule {
-
     @Provides
     fun now(): LocalDateTime {
         return LocalDateTime.now()
@@ -43,11 +45,38 @@ class CoreModule {
     }
 
     @Provides
-    fun wordsSqlService(
+    fun dbSqlService(
         app: Application
+    ): DbSqlService {
+        return DbSqlService(
+            context = app
+        )
+    }
+
+    @Provides
+    fun wordsSqlService(
+        dbSqlService: DbSqlService
     ): WordsSqlService {
         return WordsSqlService(
-            context = app
+            dbSqlService = dbSqlService
+        )
+    }
+
+    @Provides
+    fun userWordsSqlService(
+        dbSqlService: DbSqlService
+    ): UserWordsSqlService {
+        return UserWordsSqlService(
+            dbSqlService = dbSqlService
+        )
+    }
+
+    @Provides
+    fun userStatsSqlService(
+        dbSqlService: DbSqlService
+    ): StatsSqlService {
+        return StatsSqlService(
+            dbSqlService = dbSqlService
         )
     }
 

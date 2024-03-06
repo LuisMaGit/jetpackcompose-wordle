@@ -568,12 +568,12 @@ class GameUtilServiceTest {
                             WChar(
                                 char = 'A',
                                 state = WCharState.Playing,
-                                animationState = WCharAnimationState.Appear
+                                animationState = WCharAnimationState.Still
                             ),
                             WChar(
                                 char = 'B',
                                 state = WCharState.Playing,
-                                animationState = WCharAnimationState.Appear
+                                animationState = WCharAnimationState.Still
                             ),
                             WChar.boxEmpty(),
                             WChar.boxEmpty(),
@@ -618,22 +618,22 @@ class GameUtilServiceTest {
                             WChar(
                                 char = 'A',
                                 state = WCharState.Playing,
-                                animationState = WCharAnimationState.Appear
+                                animationState = WCharAnimationState.Still
                             ),
                             WChar(
                                 char = 'B',
                                 state = WCharState.Playing,
-                                animationState = WCharAnimationState.Appear
+                                animationState = WCharAnimationState.Still
                             ),
                             WChar(
                                 char = 'C',
                                 state = WCharState.Playing,
-                                animationState = WCharAnimationState.Appear
+                                animationState = WCharAnimationState.Still
                             ),
                             WChar(
                                 char = 'D',
                                 state = WCharState.Playing,
-                                animationState = WCharAnimationState.Appear
+                                animationState = WCharAnimationState.Still
                             ),
                             WChar.boxEmpty(),
                         )
@@ -724,22 +724,22 @@ class GameUtilServiceTest {
                             WChar(
                                 char = 'A',
                                 state = WCharState.Playing,
-                                animationState = WCharAnimationState.Appear
+                                animationState = WCharAnimationState.Still
                             ),
                             WChar(
                                 char = 'B',
                                 state = WCharState.Playing,
-                                animationState = WCharAnimationState.Appear
+                                animationState = WCharAnimationState.Still
                             ),
                             WChar(
                                 char = 'C',
                                 state = WCharState.Playing,
-                                animationState = WCharAnimationState.Appear
+                                animationState = WCharAnimationState.Still
                             ),
                             WChar(
                                 char = 'D',
                                 state = WCharState.Playing,
-                                animationState = WCharAnimationState.Appear
+                                animationState = WCharAnimationState.Still
                             ),
                             WChar(
                                 char = 'E',
@@ -757,7 +757,8 @@ class GameUtilServiceTest {
     fun `getListCharsWithStateFromListChars - test`() {
         assertEquals(
             getService().getListCharsWithStateFromListChars(
-                chars = listOf('A', 'B', 'C')
+                chars = listOf('A', 'B', 'C'),
+                putLastAsAppearAnimation = true
             ),
             ListCharsWithState(
                 done = false,
@@ -765,12 +766,12 @@ class GameUtilServiceTest {
                     WChar(
                         state = WCharState.Playing,
                         char = 'A',
-                        animationState = WCharAnimationState.Appear
+                        animationState = WCharAnimationState.Still
                     ),
                     WChar(
                         state = WCharState.Playing,
                         char = 'B',
-                        animationState = WCharAnimationState.Appear
+                        animationState = WCharAnimationState.Still
                     ),
                     WChar(
                         state = WCharState.Playing,
@@ -785,7 +786,8 @@ class GameUtilServiceTest {
 
         assertEquals(
             getService().getListCharsWithStateFromListChars(
-                chars = listOf('A', 'B', 'C', 'D', 'E')
+                chars = listOf('A', 'B', 'C', 'D', 'E'),
+                putLastAsAppearAnimation = true
             ),
             ListCharsWithState(
                 done = false,
@@ -793,22 +795,22 @@ class GameUtilServiceTest {
                     WChar(
                         state = WCharState.Playing,
                         char = 'A',
-                        animationState = WCharAnimationState.Appear
+                        animationState = WCharAnimationState.Still
                     ),
                     WChar(
                         state = WCharState.Playing,
                         char = 'B',
-                        animationState = WCharAnimationState.Appear
+                        animationState = WCharAnimationState.Still
                     ),
                     WChar(
                         state = WCharState.Playing,
                         char = 'C',
-                        animationState = WCharAnimationState.Appear
+                        animationState = WCharAnimationState.Still
                     ),
                     WChar(
                         state = WCharState.Playing,
                         char = 'D',
-                        animationState = WCharAnimationState.Appear
+                        animationState = WCharAnimationState.Still
                     ),
                     WChar(
                         state = WCharState.Playing,
@@ -821,7 +823,8 @@ class GameUtilServiceTest {
 
         assertEquals(
             getService().getListCharsWithStateFromListChars(
-                chars = emptyList()
+                chars = emptyList(),
+                putLastAsAppearAnimation = true
             ),
             ListCharsWithState(
                 done = false,

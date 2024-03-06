@@ -9,10 +9,42 @@ setCurrentlyPlayingWord:
 INSERT INTO user_words (word_rowid, last_update, currently_playing, solved_in_time)
 VALUES (:word_rowid, :last_update, 1, 0);
 
+selectUserWordById:
+SELECT *
+FROM user_words
+WHERE word_rowid =:word_rowid;
+
 unsetCurrentlyPlayingWord:
 UPDATE user_words
 SET currently_playing = 0
 WHERE word_rowid = :word_rowid;
+
+updateWord:
+UPDATE user_words
+SET letters = :letters,
+    last_update = :last_update,
+    solved_in_time = :solved_in_time
+WHERE word_rowid = :word_id;
+
+selectGamesPlayedCount:
+SELECT COUNT (*)
+FROM user_words;
+
+selectSolvedGamesPlayedCount:
+SELECT COUNT (*)
+FROM user_words
+WHERE solved_in_time = 1;
+
+-- user_stats
+selectUserStats:
+SELECT *
+FROM user_stats;
+
+setUserStats:
+UPDATE user_stats
+SET current_streak = :current_streak,
+    record_streak = :record_streak,
+    win_distribution = :win_distribution;
 
 -- words
 selectWOD:
@@ -33,7 +65,9 @@ WHERE word_id = :word_id;
 
 setWOD:
 UPDATE words
-SET word_of_day  = 1, word_of_day_at = :word_of_day_at, word_of_day_number = :word_of_day_number
+SET word_of_day  = 1,
+    word_of_day_at = :word_of_day_at,
+    word_of_day_number = :word_of_day_number
 WHERE word_id = :word_id;
 
 selectWordById:
@@ -45,8 +79,3 @@ searchWord:
 SELECT *
 FROM words
 WHERE word = :word;
-
-updateWord:
-UPDATE user_words
-SET letters = :letters, last_update = :last_update
-WHERE word_rowid = :word_id;

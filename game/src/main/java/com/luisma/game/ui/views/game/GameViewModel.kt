@@ -12,7 +12,10 @@ import com.luisma.game.models.WCharAnimationState
 import com.luisma.game.models.WCharRowAnimationState
 import com.luisma.game.services.GameUtilsService
 import com.luisma.game.services.PlayingWordService
+import com.luisma.game.services.UserStatsService
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.collections.immutable.toImmutableList
+import kotlinx.collections.immutable.toImmutableMap
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
@@ -25,6 +28,7 @@ import javax.inject.Inject
 class GameViewModel @Inject constructor(
     private val playingWordService: PlayingWordService,
     private val gameUtilsService: GameUtilsService,
+    private val userStatsService: UserStatsService
 ) : ViewModel() {
 
     private val _state = MutableStateFlow(GameState.default())
@@ -42,9 +46,20 @@ class GameViewModel @Inject constructor(
 
     fun sendEvent(event: GameEvents) {
         when (event) {
-            is GameEvents.SendChar -> sendChar(event.char)
-            is GameEvents.DeleteChar -> deleteLastChar()
             is GameEvents.Enter -> onEnter()
+            is GameEvents.DeleteChar -> deleteLastChar()
+            is GameEvents.FinishHorizontalAnimation -> resetHorizontalRowAnimation()
+            is GameEvents.SendChar -> sendChar(event.char)
+            is GameEvents.OpenStats -> openStats(event.showStats)
+            is GameEvents.FinishAppearAnimation -> resetAppearAnimation(
+                rowIdx = event.rowIdx,
+                columnIdx = event.columnIdx
+            )
+
+            is GameEvents.FinishRowAnimation -> resetRowAnimation(
+                rowIdx = event.rowIdx
+            )
+
         }
     }
 
@@ -165,17 +180,9 @@ class GameViewModel @Inject constructor(
                 guessedWord = guessedWord,
             )
             if (!exists) {
-                val horizontalAnimationState = if (
-                    _state.value.horizontalAnimationState == WCharRowAnimationState.Still ||
-                    _state.value.horizontalAnimationState == WCharRowAnimationState.TriggerHorizontal2
-                ) {
-                    WCharRowAnimationState.TriggerHorizontal1
-                } else {
-                    WCharRowAnimationState.TriggerHorizontal2
-                }
                 _state.update {
                     it.copy(
-                        horizontalAnimationState = horizontalAnimationState
+                        horizontalAnimationState = WCharRowAnimationState.TriggerHorizontal
                     )
                 }
                 return@launch
@@ -197,9 +204,12 @@ class GameViewModel @Inject constructor(
                 newLetterRows
             )
             // update currently playing db
+            val solvedInTime = newGameState == PlayingWordGameState.Win
+                    && _state.value.gameType == GameType.WOD
             playingWordService.updateCurrentlyPlayingWord(
                 wordsWithSeparators = wordsWithSeparators,
                 wordId = _state.value.playingWord.wordId,
+                solvedInTime = solvedInTime
             )
             // update state with playing word
             when (newGameState) {
@@ -207,6 +217,13 @@ class GameViewModel @Inject constructor(
                 // when lose in historic mode, the keyboard, will be still open
                 // but with all the keys disabled, check [GameState.showKeyboard]
                 PlayingWordGameState.Win, PlayingWordGameState.Lose -> {
+                    // set user stats
+                    if (_state.value.gameType == GameType.WOD) {
+                        userStatsService.setUserStats(
+                            doneAtTry = _state.value.gameCursorPosition.row,
+                            isAWin = newGameState == PlayingWordGameState.Win
+                        )
+                    }
                     // keyboard state exception
                     val enabledKeyState = if (
                         newGameState == PlayingWordGameState.Win
@@ -228,9 +245,6 @@ class GameViewModel @Inject constructor(
                         animationState = animationState,
                         lettersRow = newLetterRows,
                     )
-                    newLetterRows.forEach { key, value ->
-                        println("==XX_ Key: $key $value")
-                    }
                     // build new playing word
                     val newPlayingWord = _state.value.playingWord.copy(
                         state = newGameState,
@@ -267,9 +281,6 @@ class GameViewModel @Inject constructor(
                         state = newGameState,
                         lettersRows = newLetterRows
                     )
-                    newLetterRows.forEach { key, value ->
-                        println("XX_ Key: $key $value")
-                    }
                     _state.update {
                         it.copy(
                             playingWord = newPlayingWord,
@@ -287,6 +298,55 @@ class GameViewModel @Inject constructor(
                     }
                 }
             }
+        }
+    }
+
+    private fun resetHorizontalRowAnimation() {
+        _state.update {
+            it.copy(
+                horizontalAnimationState = WCharRowAnimationState.Still
+            )
+        }
+    }
+
+    private fun resetAppearAnimation(
+        rowIdx: Int,
+        columnIdx: Int
+    ) {
+        val mutableLetterRows = _state.value.playingWord.lettersRows.toMutableMap()
+        val listChars = mutableLetterRows[rowIdx]?.chars?.toMutableList() ?: return
+        listChars[columnIdx] = listChars[columnIdx].copy(
+            animationState = WCharAnimationState.Still
+        )
+        mutableLetterRows[rowIdx] = mutableLetterRows[rowIdx]?.copy(
+            chars = listChars.toImmutableList()
+        ) ?: return
+        val playingWord = _state.value.playingWord.copy(
+            lettersRows = mutableLetterRows.toImmutableMap()
+        )
+        _state.update {
+            it.copy(playingWord = playingWord)
+        }
+    }
+
+    private fun resetRowAnimation(rowIdx: Int) {
+        val newLetterRows = gameUtilsService.putAnimationStateToRow(
+            rowIdx = rowIdx,
+            animationState = WCharAnimationState.Still,
+            lettersRow = _state.value.playingWord.lettersRows,
+        )
+        val newPlayingWord = _state.value.playingWord.copy(
+            lettersRows = newLetterRows
+        )
+        _state.update {
+            it.copy(playingWord = newPlayingWord)
+        }
+    }
+
+
+    private fun openStats(show: Boolean) {
+        _state.update {
+            it.copy(showStats = show)
         }
     }
 

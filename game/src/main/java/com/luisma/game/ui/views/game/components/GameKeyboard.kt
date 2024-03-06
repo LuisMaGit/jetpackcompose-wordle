@@ -37,7 +37,7 @@ internal fun GameKeyboard(
     ) {
         KeysRows(
             keys = keyboard.row3,
-            keyDimensions= keyDimensions,
+            keyDimensions = keyDimensions,
             keySubmitDimensions = keySubmitDimensions,
             onTapDelete = onTapDelete,
             onTapEnter = onTapEnter,
@@ -46,7 +46,7 @@ internal fun GameKeyboard(
         )
         KeysRows(
             keys = keyboard.row2,
-            keyDimensions= keyDimensions,
+            keyDimensions = keyDimensions,
             keySubmitDimensions = keySubmitDimensions,
             onTapDelete = onTapDelete,
             onTapEnter = onTapEnter,
@@ -55,7 +55,7 @@ internal fun GameKeyboard(
         )
         KeysRows(
             keys = keyboard.row1,
-            keyDimensions= keyDimensions,
+            keyDimensions = keyDimensions,
             keySubmitDimensions = keySubmitDimensions,
             withEnterAndDelete = true,
             onTapDelete = onTapDelete,

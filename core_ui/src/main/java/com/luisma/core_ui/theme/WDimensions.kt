@@ -18,10 +18,13 @@ object WBorderWidthContract {
 
 object WSpacing {
     val k5 = 5.dp
-    val kHalf5 = 2.5.dp
+    val k10 = 10.dp
     val k18 = 18.dp
+    val k40 = 40.dp
+    val k80 = 80.dp
 }
 
 object WScreenFractions {
     const val k80 = .8f
+    const val k90 = .9f
 }

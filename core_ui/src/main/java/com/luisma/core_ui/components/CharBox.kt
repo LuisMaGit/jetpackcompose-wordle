@@ -1,6 +1,7 @@
 package com.luisma.core_ui.components
 
 import androidx.compose.animation.core.Animatable
+import androidx.compose.animation.core.AnimationEndReason
 import androidx.compose.animation.core.EaseOut
 import androidx.compose.animation.core.FastOutSlowInEasing
 import androidx.compose.animation.core.keyframes
@@ -81,6 +82,7 @@ data class CharBoxDimensions(
     }
 }
 
+
 @Composable
 fun CharBox(
     modifier: Modifier = Modifier,
@@ -89,13 +91,20 @@ fun CharBox(
     dimensions: CharBoxDimensions = CharBoxDimensions.small(),
     char: Char? = null,
     charIdx: Int = 0,
-    lastCharIdx: Int = 0
+    rowIdx: Int = 0,
+    lastCharIdx: Int = 0,
+    onDismissScaleAnimation: ((rowIdx: Int, charIdx: Int) -> Unit)? = null,
+    onDismissRowAnimation: ((rowIdx: Int) -> Unit)? = null,
 ) {
+
+    val isLastInRow = lastCharIdx == charIdx
+    val triggerScale = charAnimation == CharBoxAnimationType.Scale
 
     // appear animation
     val scaleAnimation = remember {
         Animatable(1f)
     }
+
 
     // reveal animation
     val rotationXAnimation = remember {
@@ -113,20 +122,30 @@ fun CharBox(
             || charState == CharBoxType.CharMisplaced
             || charState == CharBoxType.CharMissing)
 
+    val jumpAnimationCondition = rotateAnimationCondition
+            && charAnimation == CharBoxAnimationType.Jump
+
     LaunchedEffect(key1 = charAnimation) {
         // appear animation
-        if (charAnimation == CharBoxAnimationType.Scale)
-            scaleAnimation.animateTo(
+        if (triggerScale) {
+            val result = scaleAnimation.animateTo(
                 targetValue = 1f,
                 animationSpec = keyframes {
                     durationMillis = 100
                     1.05f at 50 using FastOutSlowInEasing
                 },
             )
+            if (result.endReason == AnimationEndReason.Finished
+                && onDismissScaleAnimation != null
+            ) {
+                onDismissScaleAnimation(rowIdx, charIdx)
+            }
+        }
+
 
         // reveal animation and
-        if (rotateAnimationCondition)
-            rotationXAnimation.animateTo(
+        if (rotateAnimationCondition) {
+            val result = rotationXAnimation.animateTo(
                 targetValue = 180f,
                 animationSpec = tween(
                     durationMillis = 300,
@@ -134,10 +153,18 @@ fun CharBox(
                     easing = EaseOut
                 )
             )
+            if (isLastInRow
+                && result.endReason == AnimationEndReason.Finished
+                && onDismissRowAnimation != null
+                && !jumpAnimationCondition
+            ) {
+                onDismissRowAnimation(rowIdx)
+            }
+        }
 
         //success animation
-        if (rotateAnimationCondition && charAnimation == CharBoxAnimationType.Jump)
-            translationYAnimation.animateTo(
+        if (jumpAnimationCondition) {
+            val result = translationYAnimation.animateTo(
                 targetValue = 0f,
                 animationSpec = keyframes {
                     delayMillis = 300 * lastCharIdx - 300
@@ -147,7 +174,13 @@ fun CharBox(
                     -100f at 450
                 },
             )
-
+            if (isLastInRow
+                && result.endReason == AnimationEndReason.Finished
+                && onDismissRowAnimation != null
+            ) {
+                onDismissRowAnimation(rowIdx)
+            }
+        }
     }
 
     fun buildStyleModifier(
@@ -192,7 +225,7 @@ fun CharBox(
     @Composable
     fun textComponent(charBoxType: CharBoxType = charState) {
         WText(
-            text = char.toString(),
+            text = if (charBoxType == CharBoxType.Empty) "" else char.toString(),
             fontSize = dimensions.fontSize.fontSizeNonScaledSp,
             color = if (charBoxType != CharBoxType.Char) WColorContract.white else null
         )
@@ -204,8 +237,16 @@ fun CharBox(
             modifier = modifier
                 .size(dimensions.size)
                 .graphicsLayer {
-                    rotationX = rotationXAnimation.value
-                    translationY = translationYAnimation.value
+                    rotationX = if (rotateAnimationCondition) {
+                        rotationXAnimation.value
+                    } else {
+                        0f
+                    }
+                    translationY = if (jumpAnimationCondition) {
+                        translationYAnimation.value
+                    } else {
+                        0f
+                    }
                 },
         ) {
             if (rotationXAnimation.value <= 90f) {
@@ -249,10 +290,16 @@ fun CharBox(
             contentAlignment = Alignment.Center,
             modifier = modifier
                 .graphicsLayer {
-                    scaleX = scaleAnimation.value
-                    scaleY = scaleAnimation.value
+                    scaleX = if (triggerScale) scaleAnimation.value else 1f
+                    scaleY = if (triggerScale) scaleAnimation.value else 1f
                 }
-                .size(dimensions.size * scaleAnimation.value)
+                .size(
+                    if (triggerScale) {
+                        dimensions.size * scaleAnimation.value
+                    } else {
+                        dimensions.size
+                    }
+                )
                 .then(
                     buildStyleModifier(
                         colors = WTheme.colors,
@@ -325,7 +372,7 @@ private fun PreviewCharBox() {
 
 @Preview
 @Composable
-fun PreviewCharBoxDark() {
+private fun PreviewCharBoxDark() {
     WThemeProvider(
         darkTheme = true
     ) {

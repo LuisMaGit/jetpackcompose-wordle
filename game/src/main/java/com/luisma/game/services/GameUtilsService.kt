@@ -282,7 +282,8 @@ class GameUtilsService {
 
         val mutableLetterRows = lettersRow.toMutableMap()
         mutableLetterRows[cursorPosition.row] = getListCharsWithStateFromListChars(
-            mutablePlayingRow
+            chars = mutablePlayingRow,
+            putLastAsAppearAnimation = false
         )
 
         return GameUtilsAddRemoveCharResponse(
@@ -316,7 +317,8 @@ class GameUtilsService {
 
         val mutableLetterRows = lettersRow.toMutableMap()
         mutableLetterRows[cursorPosition.row] = getListCharsWithStateFromListChars(
-            mutablePlayingRow
+            chars = mutablePlayingRow,
+            putLastAsAppearAnimation = true
         )
 
         return GameUtilsAddRemoveCharResponse(
@@ -396,13 +398,18 @@ class GameUtilsService {
     }
 
     fun getListCharsWithStateFromListChars(
-        chars: List<Char>
+        chars: List<Char>,
+        putLastAsAppearAnimation: Boolean,
     ): ListCharsWithState {
-        val wChars = chars.map {
+        val wChars = chars.mapIndexed { idx, char ->
             WChar(
-                char = it,
+                char = char,
                 state = WCharState.Playing,
-                animationState = WCharAnimationState.Appear
+                animationState = if (putLastAsAppearAnimation && idx == chars.count() - 1) {
+                    WCharAnimationState.Appear
+                } else {
+                    WCharAnimationState.Still
+                }
             )
         }.toMutableList()
 

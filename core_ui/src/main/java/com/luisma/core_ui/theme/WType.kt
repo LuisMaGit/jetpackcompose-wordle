@@ -32,6 +32,7 @@ object WTypeSizeContract {
     val k12 = 12.sp
     val k16 = 16.sp
     val k20 = 20.sp
+    val k28 = 28.sp
     val k32 = 32.sp
 }
 

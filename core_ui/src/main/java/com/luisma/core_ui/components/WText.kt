@@ -1,5 +1,6 @@
 package com.luisma.core_ui.components
 
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Column
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -61,7 +62,9 @@ fun WText(
 @Composable
 private fun WTextPreview() {
     WThemeProvider {
-        Column {
+        Column(
+            modifier = Modifier.background(color = Color.White)
+        ) {
             WText(
                 text = "T1 Lorem ipsum",
                 wTextType = WTextType.T1

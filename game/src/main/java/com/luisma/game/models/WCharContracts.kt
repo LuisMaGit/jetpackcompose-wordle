@@ -17,8 +17,7 @@ enum class WCharState {
 
 enum class WCharRowAnimationState {
     Still,
-    TriggerHorizontal1,
-    TriggerHorizontal2,
+    TriggerHorizontal,
 }
 
 val WCHAR_STATE_NOT_RELATED_TO_GUESSED_WORD = setOf(

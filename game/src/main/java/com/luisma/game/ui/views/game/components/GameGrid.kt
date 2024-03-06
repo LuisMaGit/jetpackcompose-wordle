@@ -1,6 +1,7 @@
 package com.luisma.game.ui.views.game.components
 
 import androidx.compose.animation.core.Animatable
+import androidx.compose.animation.core.AnimationEndReason
 import androidx.compose.animation.core.keyframes
 import androidx.compose.foundation.layout.Box
 import androidx.compose.runtime.Composable
@@ -22,6 +23,9 @@ internal fun GameGrid(
     boxDimension: CharBoxDimensions,
     horizontalRowAnimation: WCharRowAnimationState,
     currentlyPlayingRowIdx: Int,
+    onDismissHorizontalAnimation: () -> Unit,
+    onDismissScaleAnimation: ((rowIdx: Int, charIdx: Int) -> Unit),
+    onDismissRowAnimation: ((rowIdx: Int) -> Unit),
 ) {
 
     val translationXAnimation = remember {
@@ -30,7 +34,7 @@ internal fun GameGrid(
 
     LaunchedEffect(key1 = horizontalRowAnimation) {
         if (horizontalRowAnimation != WCharRowAnimationState.Still) {
-            translationXAnimation.animateTo(
+            val result = translationXAnimation.animateTo(
                 targetValue = 0f,
                 animationSpec = keyframes {
                     durationMillis = 250
@@ -40,8 +44,10 @@ internal fun GameGrid(
                     20f at 200
                 },
             )
+            if (result.endReason == AnimationEndReason.Finished) {
+                onDismissHorizontalAnimation()
+            }
         }
-
     }
 
     fun verticalOffset(index: Int): Dp {
@@ -65,13 +71,17 @@ internal fun GameGrid(
         contentAlignment = Alignment.TopStart,
         modifier = modifier,
     ) {
-        for ((index, entry) in gridData)
+        for ((index, entry) in gridData) {
             GameGridRow(
                 modifier = Modifier
                     .then(buildModifier(index)),
                 chars = entry.chars,
                 boxDimension = boxDimension,
-                verticalOffset = verticalOffset(index)
+                verticalOffset = verticalOffset(index),
+                rowIdx = index,
+                onDismissScaleAnimation = onDismissScaleAnimation,
+                onDismissRowAnimation = onDismissRowAnimation,
             )
+        }
     }
 }

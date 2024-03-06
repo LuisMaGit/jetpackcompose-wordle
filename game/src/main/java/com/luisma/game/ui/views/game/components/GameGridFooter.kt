@@ -112,7 +112,9 @@ private fun FooterText(
 }
 
 
-@Preview
+@Preview(
+    showBackground = true,
+)
 @Composable
 private fun GameGridFooterPreview() {
     WThemeProvider(

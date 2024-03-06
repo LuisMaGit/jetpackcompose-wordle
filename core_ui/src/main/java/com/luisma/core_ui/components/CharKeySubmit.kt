@@ -43,7 +43,7 @@ data class CharKeySubmitDimensions(
             )
         }
 
-        fun big(): CharKeySubmitDimensions {
+        private fun big(): CharKeySubmitDimensions {
             return CharKeySubmitDimensions(
                 width = 90.dp,
                 height = 58.dp,

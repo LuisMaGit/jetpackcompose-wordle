@@ -3,7 +3,6 @@ package com.luisma.game.ui.views.game.components
 import androidx.compose.foundation.layout.offset
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import com.luisma.core_ui.components.CharBox
@@ -11,12 +10,10 @@ import com.luisma.core_ui.components.CharBoxAnimationType
 import com.luisma.core_ui.components.CharBoxDimensions
 import com.luisma.core_ui.components.CharBoxType
 import com.luisma.core_ui.theme.WSpacing
-import com.luisma.core_ui.theme.WThemeProvider
 import com.luisma.game.models.WChar
 import com.luisma.game.models.WCharAnimationState
 import com.luisma.game.models.WCharState
 import kotlinx.collections.immutable.ImmutableList
-import kotlinx.collections.immutable.persistentListOf
 
 internal object GameGridRowConstants {
     val spacing = WSpacing.k5
@@ -28,8 +25,10 @@ internal fun GameGridRow(
     chars: ImmutableList<WChar>,
     boxDimension: CharBoxDimensions,
     verticalOffset: Dp = 0.dp,
+    rowIdx: Int = 0,
+    onDismissScaleAnimation: ((rowIdx: Int, charIdx: Int) -> Unit)? = null,
+    onDismissRowAnimation: ((rowIdx: Int) -> Unit)? = null,
 ) {
-
 
     fun charStateMapper(charState: WCharState): CharBoxType =
         when (charState) {
@@ -70,25 +69,10 @@ internal fun GameGridRow(
             char = wChar.char,
             dimensions = boxDimension,
             charIdx = columnIdx,
-            lastCharIdx = chars.size - 1
-        )
-    }
-}
-
-@Composable
-@Preview
-private fun GameGridRowPrev() {
-    WThemeProvider {
-        GameGridRow(
-            chars = persistentListOf(
-                WChar.boxEmpty(),
-                WChar.boxEmpty(),
-                WChar.boxEmpty(),
-                WChar.boxEmpty(),
-                WChar.boxEmpty(),
-            ),
-            boxDimension = CharBoxDimensions.small(),
-            verticalOffset = 0.dp
+            lastCharIdx = chars.size - 1,
+            rowIdx = rowIdx,
+            onDismissScaleAnimation = onDismissScaleAnimation,
+            onDismissRowAnimation = onDismissRowAnimation,
         )
     }
 }

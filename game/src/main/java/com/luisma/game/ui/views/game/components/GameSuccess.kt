@@ -85,6 +85,9 @@ internal fun GameSuccess(
                     state = verticalScrollState
                 )
         ) {
+            GameAppbar(
+                onTapStats = { events(GameEvents.OpenStats(showStats = true)) }
+            )
             Spacer(modifier = Modifier.padding(bottom = WSpacing.k5))
             // grid
             GameGrid(
@@ -96,7 +99,16 @@ internal fun GameSuccess(
                 gridData = letterRows,
                 boxDimension = charBoxDimensions,
                 horizontalRowAnimation = state.horizontalAnimationState,
-                currentlyPlayingRowIdx = state.gameCursorPosition.row
+                currentlyPlayingRowIdx = state.gameCursorPosition.row,
+                onDismissHorizontalAnimation = {
+                    events(GameEvents.FinishHorizontalAnimation)
+                },
+                onDismissScaleAnimation = { rowIdx, columnIdx ->
+                    events(GameEvents.FinishAppearAnimation(rowIdx, columnIdx))
+                },
+                onDismissRowAnimation = { rowIdx ->
+                    events(GameEvents.FinishRowAnimation(rowIdx))
+                },
             )
             Spacer(modifier = Modifier.padding(bottom = WSpacing.k5))
 
@@ -222,7 +234,9 @@ private fun GameBigTimerAndHeader(
     }
 }
 
-@Preview
+@Preview(
+    showBackground = true,
+)
 @Composable
 private fun GameSuccessPreview() {
     WThemeProvider {

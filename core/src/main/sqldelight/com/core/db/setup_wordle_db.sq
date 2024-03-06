@@ -14,11 +14,20 @@ CREATE TABLE user_words (
  	solved_in_time INTEGER NOT NULL
 );
 
+CREATE TABLE user_stats(
+	current_streak INTEGER,
+	record_streak INTEGER,
+	win_distribution TEXT
+);
+
+INSERT INTO user_stats (current_streak, record_streak, win_distribution)
+VALUES (0, 0, "0,0,0,0,0,0");
+
 INSERT INTO words (word, word_of_day) VALUES
 ('ABETO', 0),
 ('ACTOR', 0),
-('AGUAS', 0),
 ('AGUDO', 0),
+('AGUAS', 0),
 ('ALADO', 0),
 ('ALBAS', 0),
 ('ALTAR', 0),

@@ -34,7 +34,7 @@ data class PlayingWordDate(
             )
         }
 
-        fun fromWTime(wTime: WTime) : PlayingWordDate {
+        fun fromWTime(wTime: WTime): PlayingWordDate {
             return PlayingWordDate(
                 year = wTime.year,
                 month = wTime.month,

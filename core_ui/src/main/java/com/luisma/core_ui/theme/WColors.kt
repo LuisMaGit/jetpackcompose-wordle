@@ -1,4 +1,5 @@
 package com.luisma.core_ui.theme
+
 import androidx.compose.runtime.Stable
 import androidx.compose.runtime.staticCompositionLocalOf
 import androidx.compose.ui.graphics.Color
@@ -10,7 +11,7 @@ data class WColors(
     val placeholderBorder: Color,
     val placeholderBorderBold: Color,
     val placeholderFill: Color,
-    val keyDefault : Color,
+    val keyDefault: Color,
     val placeholderGreen: Color = WColorContract.placeholderGreen,
     val placeholderOrange: Color = WColorContract.placeholderOrange,
 ) {
@@ -21,7 +22,7 @@ data class WColors(
                 inverseBackground = WColorContract.black,
                 placeholderBorder = WColorContract.placeholderBorderLight,
                 placeholderBorderBold = WColorContract.placeholderBorderBoldLight,
-                placeholderFill =  WColorContract.placeholderFillLight,
+                placeholderFill = WColorContract.placeholderFillLight,
                 keyDefault = WColorContract.keyDefaultLight
             )
 
@@ -44,8 +45,8 @@ object WColorContract {
     val placeholderFillDark = Color(0XFF3A3A3D)
     val placeholderBorderBoldLight = Color(0XFF878A8C)
     val placeholderBorderBoldDark = Color(0XFFCED5DB)
-    val placeholderBorderLight =  Color(0XFFD2D6DA)
-    val placeholderBorderDark =  Color(0XFF565758)
+    val placeholderBorderLight = Color(0XFFD2D6DA)
+    val placeholderBorderDark = Color(0XFF565758)
     val keyDefaultLight = Color(0XFFD2D6DA)
     val keyDefaultDark = Color(0XFF818384)
     val white = Color(0XFFF8F9FA)

@@ -96,7 +96,9 @@ private fun Separator(
 
 
 @Composable
-@Preview
+@Preview(
+    showBackground = true
+)
 private fun GameBigTimerPreview() {
     WThemeProvider {
         GameBigTimer(
