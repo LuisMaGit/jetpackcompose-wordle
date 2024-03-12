@@ -41,8 +41,8 @@ data class WColors(
 object WColorContract {
     val placeholderGreen = Color(0XFF02C39A)
     val placeholderOrange = Color(0xFFF5793A)
+    val placeholderFillDark = Color(0XFF787C7E)
     val placeholderFillLight = Color(0XFF787C7E)
-    val placeholderFillDark = Color(0XFF3A3A3D)
     val placeholderBorderBoldLight = Color(0XFF878A8C)
     val placeholderBorderBoldDark = Color(0XFFCED5DB)
     val placeholderBorderLight = Color(0XFFD2D6DA)

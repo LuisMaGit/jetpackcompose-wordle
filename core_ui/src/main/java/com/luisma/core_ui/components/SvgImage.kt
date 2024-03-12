@@ -7,12 +7,13 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
+import com.luisma.core_ui.theme.WTheme
 
 @Composable
 fun SvgImage(
     modifier: Modifier = Modifier,
     @DrawableRes id: Int,
-    tint: Color? = null,
+    tint: Color? = WTheme.colors.inverseBackground,
 ) {
     Icon(
         modifier = modifier,

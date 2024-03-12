@@ -2,6 +2,8 @@ package com.luisma.core
 
 import android.app.Application
 import com.luisma.core.services.NumbService
+import com.luisma.core.services.PaginationService
+import com.luisma.core.services.RouterService
 import com.luisma.core.services.TimeService
 import com.luisma.core.services.TimeServiceNowProvider
 import com.luisma.core.services.db_services.DbSqlService
@@ -13,6 +15,7 @@ import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
 import java.time.LocalDateTime
+import javax.inject.Singleton
 
 @Module
 @InstallIn(SingletonComponent::class)
@@ -78,6 +81,18 @@ class CoreModule {
         return StatsSqlService(
             dbSqlService = dbSqlService
         )
+    }
+
+    @Provides
+    fun paginationService(
+    ): PaginationService {
+        return PaginationService()
+    }
+
+    @Provides
+    @Singleton
+    fun routerService(): RouterService {
+        return RouterService()
     }
 
 }

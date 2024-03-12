@@ -2,7 +2,6 @@ package com.luisma.game.services
 
 import com.luisma.game.models.DEFAULT_WORD_LENGTH
 import com.luisma.game.models.GameCursorPosition
-import com.luisma.game.models.GameEnabledKeyState
 import com.luisma.game.models.KeyboardState
 import com.luisma.game.models.LETTERS_WORDS_SEPARATOR
 import com.luisma.game.models.LettersRows
@@ -15,6 +14,7 @@ import com.luisma.game.models.WChar
 import com.luisma.game.models.WCharAnimationState
 import com.luisma.game.models.WCharState
 import com.luisma.game.models.WKeyboard
+import com.luisma.game.models.WKeyboardKeyState
 import kotlinx.collections.immutable.persistentMapOf
 import kotlinx.collections.immutable.toImmutableList
 import kotlinx.collections.immutable.toImmutableMap
@@ -66,14 +66,16 @@ class GameUtilsService {
      * )
      * ```
      */
+
     fun resolveLettersState(
         wordsWithSeparators: String,
-        toGuessWord: String
+        toGuessWord: String,
+        fillEmptyRows: Boolean = true,
     ): LettersRows {
-        val lettersList = wordsWithSeparators.split(Regex(LETTERS_WORDS_SEPARATOR.toString()))
+        val lettersList = splitWordsWithSeparators(wordsWithSeparators)
         val output: MutableMap<Int, ListCharsWithState> = mutableMapOf()
 
-        if (lettersList.any { it.isEmpty() }) {
+        if (lettersList.isEmpty() || lettersList.first().isEmpty()) {
             output += mapOf(
                 0 to getFullRowEmpty()
             )
@@ -122,16 +124,27 @@ class GameUtilsService {
 
 
         // fill map empty spaces
-        val lastKey = output.entries.last().key
-        if (lastKey < MAX_NUMBER_OF_TRIES_TO_GUESS) {
-            for (x in lastKey + 1 until MAX_NUMBER_OF_TRIES_TO_GUESS) {
-                output += mapOf(
-                    x to getFullRowEmpty()
-                )
+        if (fillEmptyRows) {
+            val lastKey = output.entries.last().key
+            if (lastKey < MAX_NUMBER_OF_TRIES_TO_GUESS) {
+                for (x in lastKey + 1 until MAX_NUMBER_OF_TRIES_TO_GUESS) {
+                    output += mapOf(
+                        x to getFullRowEmpty()
+                    )
+                }
             }
         }
 
         return output.toImmutableMap()
+    }
+
+
+    fun splitWordsWithSeparators(
+        wordsWithSeparators: String,
+    ): List<String> {
+        return wordsWithSeparators
+            .split(Regex(LETTERS_WORDS_SEPARATOR.toString().trim()))
+            .map { it.trim() }
     }
 
     /**
@@ -428,8 +441,8 @@ class GameUtilsService {
 
     fun getEnabledKeyStateFromPlayingRow(
         listChars: List<Char>
-    ): GameEnabledKeyState {
-        return GameEnabledKeyState(
+    ): WKeyboardKeyState {
+        return WKeyboardKeyState(
             enabledEnter = listChars.count() == DEFAULT_WORD_LENGTH,
             enableAdd = listChars.count() < DEFAULT_WORD_LENGTH,
             enabledDelete = listChars.isNotEmpty()
@@ -475,7 +488,7 @@ class GameUtilsService {
 
 data class GameUtilsAddRemoveCharResponse(
     val listChars: List<Char>,
-    val enabledKeyState: GameEnabledKeyState,
+    val enabledKeyState: WKeyboardKeyState,
     val cursorPosition: GameCursorPosition,
     val letterRows: LettersRows,
 )

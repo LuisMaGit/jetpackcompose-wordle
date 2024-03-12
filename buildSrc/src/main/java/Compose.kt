@@ -11,4 +11,7 @@ object Compose {
     const val uiTooling = "androidx.compose.ui:ui-tooling"
     const val uiToolingPreview = "androidx.compose.ui:ui-tooling-preview"
     const val material = "androidx.compose.material3:material3"
+
+    const val navigationVersion = "2.7.7"
+    const val navigation = "androidx.navigation:navigation-compose:$navigationVersion"
 }

@@ -3,4 +3,5 @@ object Modules {
     const val core = ":core"
     const val coreUI = ":core_ui"
     const val game = ":game"
+    const val router = ":router"
 }

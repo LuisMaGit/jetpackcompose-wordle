@@ -11,7 +11,6 @@ import com.luisma.game.models.WordOfDay
 class WordOfDayService(
     private val timeService: TimeService,
     private val wordsSqlService: WordsSqlService,
-    private val numbService: NumbService,
     private val userStatsService: UserStatsService,
     private val userWordsSqlService: UserWordsSqlService
 ) {
@@ -43,24 +42,10 @@ class WordOfDayService(
         )
     }
 
-    private suspend fun getNewWODIdentifier(): Int? {
-        // if no exits returns null
-        val availableIdsForNewWOD = wordsSqlService.selectAvailableWordIDsForNewWOD() ?: return null
-        // check when it is only one
-        val amount = availableIdsForNewWOD.count() - 1
-        if (amount == 0) {
-            return availableIdsForNewWOD[0]
-        }
-        // most of the time behavior
-        val idxNewWOD = numbService.nextPositiveIntUnit(amount)
-        return availableIdsForNewWOD[idxNewWOD]
-    }
-
     private suspend fun setAndGetWOD(
         wordOfDayNumber: Int
     ): WordOfDay? {
-        // no more available identifiers
-        val id = getNewWODIdentifier() ?: return null
+        val id = wordsSqlService.selectAvailableWordIDsForNewWOD() ?:         return null
         // set new WOD
         val now = timeService.getWTimeNow()
         val nowStr = timeService.fromWTimeToStr(now)
@@ -77,7 +62,6 @@ class WordOfDayService(
     suspend fun getWOD(): WordOfDay? {
         // no WOD -> set first WOD
         val entityWOD = wordsSqlService.selectWOD() ?: return setAndGetWOD(wordOfDayNumber = 1)
-
         val wod = mapWODEntityToWOD(entityWOD) ?: return null
         // WOD still valid -> get WOD
         if (timeService.itHasNotBeen24HoursSince(wod.wordOfDayAt)) {
@@ -91,7 +75,6 @@ class WordOfDayService(
         ) {
             userStatsService.setUserStats(doneAtTry = 0, isAWin = false)
         }
-
         // WOD deprecated -> remove current and set WOD
         return deprecateCurrentAndSetNewWOD(
             oldWODId = wod.wordId,

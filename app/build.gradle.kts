@@ -56,6 +56,7 @@ dependencies {
     implementation(project(Modules.coreUI))
     implementation(project(Modules.core))
     implementation(project(Modules.game))
+    implementation(project(Modules.router))
 
     // androidX
     implementation(AndroidX.coreKtx)
@@ -71,6 +72,7 @@ dependencies {
     implementation(Compose.uiGraphics)
     implementation(Compose.uiTooling)
     implementation(Compose.material)
+    implementation(Compose.navigation)
     debugImplementation(Compose.uiToolingPreview)
 
     // hilt

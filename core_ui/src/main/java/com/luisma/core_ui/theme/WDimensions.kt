@@ -20,6 +20,7 @@ object WSpacing {
     val k5 = 5.dp
     val k10 = 10.dp
     val k18 = 18.dp
+    val k20 = 18.dp
     val k40 = 40.dp
     val k80 = 80.dp
 }

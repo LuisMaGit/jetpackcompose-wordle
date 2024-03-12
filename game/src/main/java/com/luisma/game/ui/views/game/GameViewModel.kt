@@ -1,16 +1,22 @@
 package com.luisma.game.ui.views.game
 
+import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.luisma.core.models.BasicScreenState
 import com.luisma.core.models.WDuration
 import com.luisma.core.models.db.UserWordsPlayingStateContract
-import com.luisma.game.models.GameEnabledKeyState
+import com.luisma.core.services.RoutePayload
+import com.luisma.core.services.RouterService
+import com.luisma.core.services.Routes
+import com.luisma.game.models.GameViewType
 import com.luisma.game.models.NextWordDuration
+import com.luisma.game.models.PlayingWord
 import com.luisma.game.models.PlayingWordGameState
 import com.luisma.game.models.UNBLOCK_WOD
 import com.luisma.game.models.WCharAnimationState
 import com.luisma.game.models.WCharRowAnimationState
+import com.luisma.game.models.WKeyboardKeyState
 import com.luisma.game.services.GameUtilsService
 import com.luisma.game.services.PlayingWordService
 import com.luisma.game.services.UserStatsService
@@ -27,88 +33,51 @@ import javax.inject.Inject
 class GameViewModel @Inject constructor(
     private val playingWordService: PlayingWordService,
     private val gameUtilsService: GameUtilsService,
-    private val userStatsService: UserStatsService
+    private val userStatsService: UserStatsService,
+    private val routerService: RouterService,
+    private val savedStateHandle: SavedStateHandle,
 ) : ViewModel() {
 
-    private val _state = MutableStateFlow(GameState.default())
+    private val _state = MutableStateFlow(GameViewState.default())
     val state = _state.asStateFlow()
 
     init {
-        when (_state.value.gameType) {
-            GameType.WOD -> viewModelScope.launch {
+        val wordId = getNavigationWordId()
+        if (wordId == null) {
+            viewModelScope.launch {
+                showTutorialOnFirstGame()
                 startWOD()
             }
-
-            GameType.Historic -> TODO(reason = "IMPLEMENT THIS")
+        } else {
+            viewModelScope.launch {
+                startHistoricWord(wordId)
+            }
         }
     }
 
-    fun sendEvent(event: GameEvents) {
+    fun sendEvent(event: GameViewEvents) {
         when (event) {
-            is GameEvents.Enter -> onEnter()
-            is GameEvents.DeleteChar -> deleteLastChar()
-            is GameEvents.FinishHorizontalAnimation -> resetHorizontalRowAnimation()
-            is GameEvents.SendChar -> sendChar(event.char)
-            is GameEvents.HandleStats -> handleStats(event.showStats)
-            is GameEvents.HandleTutorial -> handleTutorial(event.showTutorial)
-            is GameEvents.FinishAppearAnimation -> resetAppearAnimation(
+            is GameViewEvents.Enter -> onEnter()
+            is GameViewEvents.DeleteChar -> deleteLastChar()
+            is GameViewEvents.FinishHorizontalAnimation -> resetHorizontalRowAnimation()
+            is GameViewEvents.GoToHistoric -> goToHistoric()
+            is GameViewEvents.GoBack -> goBack()
+            is GameViewEvents.SendChar -> sendChar(event.char)
+            is GameViewEvents.HandleStats -> handleStats(event.showStats)
+            is GameViewEvents.HandleTutorial -> handleTutorial(event.showTutorial)
+            is GameViewEvents.FinishAppearAnimation -> resetAppearAnimation(
                 rowIdx = event.rowIdx,
                 columnIdx = event.columnIdx
             )
 
-            is GameEvents.FinishRowAnimation -> resetRowAnimation(
+            is GameViewEvents.FinishRowAnimation -> resetRowAnimation(
                 rowIdx = event.rowIdx
             )
 
         }
     }
 
-    //region events
-    private suspend fun startWOD() {
-        val playingWord = playingWordService.getCurrentlyPlaying()
-
-        // no wod
-        if (playingWord == null) {
-            TODO(
-                reason = """"This should happen only when all words available for WOD are completed,
-                    Show a sign or something similar and break
-                """"
-            )
-        }
-        // wod done
-        if (playingWord.state == PlayingWordGameState.Win ||
-            playingWord.state == PlayingWordGameState.Lose
-        ) {
-            _state.update {
-                it.copy(
-                    screenState = BasicScreenState.Success,
-                    playingWord = playingWord,
-                    correctWordWithState = gameUtilsService.getCorrectWordWithState(playingWord)
-                )
-            }
-            startTimerForWOD(playingWord.wordId)
-            return
-        }
-        // incomplete
-        _state.update {
-            val cursorPosition = gameUtilsService.getCursorPosition(
-                playingWord.lettersRows
-            )
-            it.copy(
-                screenState = BasicScreenState.Success,
-                playingWord = playingWord,
-                keyboard = gameUtilsService.resolveFullKeyboard(
-                    playingWord.lettersRows
-                ),
-                gameCursorPosition = cursorPosition,
-                enabledKeyState = gameUtilsService.getEnabledKeyStateFromPlayingRow(
-                    _state.value.playingRow
-                ),
-            )
-        }
-        startTimerForWOD(playingWord.wordId)
-    }
-
+    //region events methods
     private fun onEnter() {
         val guessedWord = gameUtilsService.wordFromWCharsToString(
             _state.value.playingRow
@@ -155,7 +124,7 @@ class GameViewModel @Inject constructor(
                 // but with all the keys disabled, check [GameState.showKeyboard]
                 PlayingWordGameState.Win, PlayingWordGameState.Lose -> {
                     // set user stats
-                    if (_state.value.gameType == GameType.WOD) {
+                    if (_state.value.gameType == GameViewType.WOD) {
                         userStatsService.setUserStats(
                             doneAtTry = _state.value.gameCursorPosition.row,
                             isAWin = newGameState == PlayingWordGameState.Win
@@ -164,9 +133,9 @@ class GameViewModel @Inject constructor(
                     // keyboard state exception
                     val enabledKeyState = if (
                         newGameState == PlayingWordGameState.Win
-                        && _state.value.gameType == GameType.Historic
+                        && _state.value.gameType == GameViewType.Historic
                     ) {
-                        GameEnabledKeyState.allDisabled()
+                        WKeyboardKeyState.allDisabled()
                     } else {
                         _state.value.enabledKeyState
                     }
@@ -200,7 +169,7 @@ class GameViewModel @Inject constructor(
                 //incomplete, update keyboard and cursor
                 PlayingWordGameState.Incomplete -> {
                     // clear playing row
-                    val clearPlayingRow = GameState.default().playingRow
+                    val clearPlayingRow = GameViewState.default().playingRow
                     // unset prev animation
                     newLetterRows = gameUtilsService.putAnimationStateToRow(
                         rowIdx = prevPlayingRowIdx,
@@ -261,6 +230,18 @@ class GameViewModel @Inject constructor(
             it.copy(
                 horizontalAnimationState = WCharRowAnimationState.Still
             )
+        }
+    }
+
+    private fun goToHistoric() {
+        viewModelScope.launch {
+            routerService.goTo(RoutePayload(route = Routes.Historic))
+        }
+    }
+
+    private fun goBack() {
+        viewModelScope.launch {
+            routerService.goBack()
         }
     }
 
@@ -325,13 +306,95 @@ class GameViewModel @Inject constructor(
     }
     //endregion
 
+    //region control methods
+    private suspend fun showTutorialOnFirstGame() {
+        if (!userStatsService.isFirstPlay()) {
+            return
+        }
+        userStatsService.unCheckIsFirstPlay()
+        _state.update {
+            it.copy(showTutorial = true)
+        }
+    }
+
+    private suspend fun startWOD() {
+        val playingWord = playingWordService.getCurrentlyPlaying()
+        // no wod, the game is finish
+        if (playingWord == null) {
+            _state.update {
+                it.copy(
+                    gameType = GameViewType.WOD,
+                    gameFinished = true,
+                    screenState = BasicScreenState.Success
+                )
+            }
+            return
+        }
+        startGame(
+            playingWord = playingWord,
+            gameViewType = GameViewType.WOD,
+        )
+        startTimerForWOD(playingWord.wordId)
+    }
+
+    private suspend fun startHistoricWord(wordId: Int) {
+        val playingWord = playingWordService.getUserWordById(wordId)
+        if (playingWord == null) {
+            "This should never happen, in historic mode the word is in the user db"
+            return
+        }
+        startGame(
+            playingWord = playingWord,
+            gameViewType = GameViewType.Historic,
+        )
+    }
+
+    private fun startGame(
+        playingWord: PlayingWord,
+        gameViewType: GameViewType,
+    ) {
+        // done
+        if (playingWord.state == PlayingWordGameState.Win ||
+            playingWord.state == PlayingWordGameState.Lose
+        ) {
+            _state.update {
+                it.copy(
+                    gameType = gameViewType,
+                    screenState = BasicScreenState.Success,
+                    playingWord = playingWord,
+                    correctWordWithState = gameUtilsService.getCorrectWordWithState(playingWord)
+                )
+            }
+            return
+        }
+
+        // incomplete
+        _state.update {
+            val cursorPosition = gameUtilsService.getCursorPosition(
+                playingWord.lettersRows
+            )
+            it.copy(
+                gameType = gameViewType,
+                screenState = BasicScreenState.Success,
+                playingWord = playingWord,
+                keyboard = gameUtilsService.resolveFullKeyboard(
+                    playingWord.lettersRows
+                ),
+                gameCursorPosition = cursorPosition,
+                enabledKeyState = gameUtilsService.getEnabledKeyStateFromPlayingRow(
+                    _state.value.playingRow
+                ),
+            )
+        }
+    }
+
     private suspend fun startTimerForWOD(wordID: Int) {
         playingWordService.countdownNextWOD(wordID)
             .takeWhile { duration ->
                 if (duration == WDuration.zero()) {
                     // reset state except game type
                     _state.update {
-                        GameState.default().copy(
+                        GameViewState.default().copy(
                             gameType = it.gameType,
                         )
                     }
@@ -355,18 +418,18 @@ class GameViewModel @Inject constructor(
         newGameState: PlayingWordGameState
     ): UserWordsPlayingStateContract {
         if (newGameState == PlayingWordGameState.Win
-            && _state.value.gameType == GameType.WOD
+            && _state.value.gameType == GameViewType.WOD
         ) {
             return UserWordsPlayingStateContract.SOLVED_IN_TIME
         }
 
         if (newGameState == PlayingWordGameState.Win
-            && _state.value.gameType == GameType.Historic
+            && _state.value.gameType == GameViewType.Historic
         ) {
             return UserWordsPlayingStateContract.SOLVED_NOT_IN_TIME
         }
 
-        if(newGameState == PlayingWordGameState.Lose){
+        if (newGameState == PlayingWordGameState.Lose) {
             return UserWordsPlayingStateContract.LOSE
         }
 
@@ -391,6 +454,18 @@ class GameViewModel @Inject constructor(
             }
         }
     }
+
+    private fun getNavigationWordId(): Int? {
+        val wordID: String? = savedStateHandle[
+            Routes.GameHistoric.payloadName ?: ""
+        ]
+        return try {
+            wordID?.toInt() ?: return null
+        } catch (e: Exception) {
+            null
+        }
+    }
+    //endregion control
 
 }
 

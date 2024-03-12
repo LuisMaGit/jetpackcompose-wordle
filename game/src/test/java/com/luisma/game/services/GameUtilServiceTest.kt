@@ -1,7 +1,7 @@
 package com.luisma.game.services
 
 import com.luisma.game.models.GameCursorPosition
-import com.luisma.game.models.GameEnabledKeyState
+import com.luisma.game.models.WKeyboardKeyState
 import com.luisma.game.models.ListCharsWithState
 import com.luisma.game.models.PlayingWordGameState
 import com.luisma.game.models.WChar
@@ -163,6 +163,22 @@ class GameUtilServiceTest {
     }
 
     @Test
+    fun `resolveLettersState - test 5`() {
+        val word = "ABCDE"
+        val wordsWithSeparators = ""
+        assertEquals(
+            getService().resolveLettersState(
+                wordsWithSeparators = wordsWithSeparators,
+                toGuessWord = word,
+                fillEmptyRows = false
+            ),
+            mapOf(
+                0 to fullRowEmpty(),
+            ),
+        )
+    }
+
+    @Test
     fun `wordFromWChars - success`() {
         val list0 = listOf(
             'A',
@@ -240,6 +256,7 @@ class GameUtilServiceTest {
             WChar.keyboardEmpty('J'),
             WChar.keyboardEmpty('K'),
             WChar.keyboardEmpty('L'),
+            WChar.keyboardEmpty('Ñ'),
         )
 
         assertEquals(
@@ -326,6 +343,7 @@ class GameUtilServiceTest {
                 WChar.keyboardEmpty('J'),
                 WChar.keyboardEmpty('K'),
                 WChar.keyboardEmpty('L'),
+                WChar.keyboardEmpty('Ñ'),
             ),
             row3 = persistentSetOf(
                 WChar.keyboardEmpty('Q'),
@@ -512,7 +530,7 @@ class GameUtilServiceTest {
                 )
             ),
             GameUtilsAddRemoveCharResponse(
-                enabledKeyState = GameEnabledKeyState(
+                enabledKeyState = WKeyboardKeyState(
                     enabledDelete = false,
                     enabledEnter = false,
                     enableAdd = true,
@@ -554,7 +572,7 @@ class GameUtilServiceTest {
                 )
             ),
             GameUtilsAddRemoveCharResponse(
-                enabledKeyState = GameEnabledKeyState(
+                enabledKeyState = WKeyboardKeyState(
                     enabledDelete = true,
                     enabledEnter = false,
                     enableAdd = true,
@@ -604,7 +622,7 @@ class GameUtilServiceTest {
                 )
             ),
             GameUtilsAddRemoveCharResponse(
-                enabledKeyState = GameEnabledKeyState(
+                enabledKeyState = WKeyboardKeyState(
                     enabledDelete = true,
                     enabledEnter = false,
                     enableAdd = true,
@@ -663,7 +681,7 @@ class GameUtilServiceTest {
                 )
             ),
             GameUtilsAddRemoveCharResponse(
-                enabledKeyState = GameEnabledKeyState(
+                enabledKeyState = WKeyboardKeyState(
                     enabledDelete = true,
                     enabledEnter = false,
                     enableAdd = true,
@@ -710,7 +728,7 @@ class GameUtilServiceTest {
                 )
             ),
             GameUtilsAddRemoveCharResponse(
-                enabledKeyState = GameEnabledKeyState(
+                enabledKeyState = WKeyboardKeyState(
                     enabledDelete = true,
                     enabledEnter = true,
                     enableAdd = false,

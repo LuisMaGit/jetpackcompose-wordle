@@ -32,6 +32,7 @@ data class WKeyboard(
                     WChar.keyboardEmpty('J'),
                     WChar.keyboardEmpty('K'),
                     WChar.keyboardEmpty('L'),
+                    WChar.keyboardEmpty('Ñ'),
                 ),
                 row3 = persistentSetOf(
                     WChar.keyboardEmpty('Q'),

@@ -15,13 +15,13 @@ import javax.inject.Inject
 class StatsViewModel @Inject constructor(
     private val userStatsService: UserStatsService,
 ) : ViewModel() {
-    private val _state = MutableStateFlow(StatsState.initial())
+    private val _state = MutableStateFlow(StatsViewState.initial())
     val state = _state.asStateFlow()
 
-    fun sendEvent(event: StatsEvents) {
+    fun sendEvent(event: StatsViewEvents) {
         when (event) {
-            is StatsEvents.InitStats -> getStats()
-            is StatsEvents.DisposeStats -> _state.update { StatsState.initial() }
+            is StatsViewEvents.InitStats -> getStats()
+            is StatsViewEvents.DisposeStats -> _state.update { StatsViewState.initial() }
         }
     }
 
@@ -30,7 +30,7 @@ class StatsViewModel @Inject constructor(
             viewModelScope.launch {
                 val stats = userStatsService.getUserStats()
                 _state.update {
-                    StatsState(
+                    StatsViewState(
                         screenState = BasicScreenState.Success,
                         stats = stats,
                         initialised = false

@@ -8,7 +8,7 @@ import com.luisma.core.services.TimeService
 import com.luisma.core.services.db_services.UserWordsSqlService
 import com.luisma.core.services.db_services.WordsSqlService
 import com.luisma.game.models.PlayingWord
-import com.luisma.game.models.PlayingWordDate
+import com.luisma.game.models.GameDate
 import com.luisma.game.models.WordOfDay
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.Flow
@@ -22,7 +22,7 @@ class PlayingWordService(
     private val gameUtilService: GameUtilsService
 ) {
 
-    private suspend fun mapCurrentlyPlayingEntityToPlayingWord(
+    private suspend fun mapUserWordEntityToPlayingWord(
         entity: UserWordsEntity?
     ): PlayingWord? {
         if (entity == null) {
@@ -52,7 +52,7 @@ class PlayingWordService(
             word = word,
             wordNumber = fullWordEntity.wordOfDayNumber,
             lettersRows = lettersRow,
-            lastUpdated = PlayingWordDate.fromWTime(lastUpdate),
+            lastUpdated = GameDate.fromWTime(lastUpdate),
             state = state,
         )
     }
@@ -68,7 +68,7 @@ class PlayingWordService(
         if (!responseSetCurrentlyPlaying) {
             return null
         }
-        return mapCurrentlyPlayingEntityToPlayingWord(
+        return mapUserWordEntityToPlayingWord(
             userWordsSqlService.selectCurrentlyPlaying()
         )
     }
@@ -93,7 +93,7 @@ class PlayingWordService(
         // playing word in db and it IS WOD -> keep playing
         val wordOfDay = wordOfDayService.getWOD() ?: return null
         if (entityCurrentlyPlaying.wordId == wordOfDay.wordId) {
-            return mapCurrentlyPlayingEntityToPlayingWord(
+            return mapUserWordEntityToPlayingWord(
                 entityCurrentlyPlaying
             )
         }
@@ -161,4 +161,11 @@ class PlayingWordService(
         )
     }
 
+    /**
+     * finds directly the played word by the user in the db
+     */
+    suspend fun getUserWordById(wordId: Int) : PlayingWord? {
+        val entity = userWordsSqlService.selectWordById(wordId)
+        return mapUserWordEntityToPlayingWord(entity)
+    }
 }

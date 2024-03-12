@@ -37,11 +37,14 @@ WHERE playing_state = :playing_state;
 
 selectGamesPlayedByPlayingState:
 SELECT *
-FROM user_words
-WHERE playing_state IN ? AND currently_playing != 1
-ORDER BY rowid DESC
-LIMIT :limit
-OFFSET :offset;
+FROM (SELECT *
+    FROM user_words
+    WHERE playing_state IN ? AND currently_playing != 1
+    ORDER BY rowid DESC
+    LIMIT :limit
+    OFFSET :offset) uw
+LEFT JOIN words w ON uw.word_rowid =  w.word_id;
+
 
 -- user_stats
 selectUserStats:
@@ -52,6 +55,7 @@ setUserStats:
 UPDATE user_stats
 SET current_streak = :current_streak,
     record_streak = :record_streak,
+    is_first_play = :is_first_play,
     win_distribution = :win_distribution;
 
 -- words
@@ -63,8 +67,9 @@ LIMIT 1;
 
 selectAvailableForNewWOD:
 SELECT word_id
-FROM words
-WHERE word_of_day_at ISNULL;
+FROM words w
+WHERE w.word_of_day_at ISNULL
+ORDER BY RANDOM() LIMIT 1;
 
 unsetWOD:
 UPDATE words

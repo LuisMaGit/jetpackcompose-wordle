@@ -8,11 +8,10 @@ import androidx.compose.ui.unit.dp
 import com.luisma.core_ui.components.CharBox
 import com.luisma.core_ui.components.CharBoxAnimationType
 import com.luisma.core_ui.components.CharBoxDimensions
-import com.luisma.core_ui.components.CharBoxType
 import com.luisma.core_ui.theme.WSpacing
 import com.luisma.game.models.WChar
 import com.luisma.game.models.WCharAnimationState
-import com.luisma.game.models.WCharState
+import com.luisma.game.ui.utils.uiCharStateMapper
 import kotlinx.collections.immutable.ImmutableList
 
 internal object GameGridRowConstants {
@@ -30,14 +29,7 @@ internal fun GameGridRow(
     onDismissRowAnimation: ((rowIdx: Int) -> Unit)? = null,
 ) {
 
-    fun charStateMapper(charState: WCharState): CharBoxType =
-        when (charState) {
-            WCharState.Empty -> CharBoxType.Empty
-            WCharState.RightPlace -> CharBoxType.CharOk
-            WCharState.WrongPlace -> CharBoxType.CharMisplaced
-            WCharState.NoMatch -> CharBoxType.CharMissing
-            WCharState.Playing -> CharBoxType.Char
-        }
+
 
     fun charAnimationMapper(animation: WCharAnimationState): CharBoxAnimationType {
         return when (animation) {
@@ -65,7 +57,7 @@ internal fun GameGridRow(
                     y = verticalOffset
                 ),
             charAnimation = charAnimationMapper(wChar.animationState),
-            charState = charStateMapper(wChar.state),
+            charState = uiCharStateMapper(wChar.state),
             char = wChar.char,
             dimensions = boxDimension,
             charIdx = columnIdx,

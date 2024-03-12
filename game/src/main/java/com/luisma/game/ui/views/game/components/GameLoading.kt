@@ -7,13 +7,20 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import com.luisma.core_ui.components.WLoader
+import com.luisma.game.models.GameViewType
 
 @Composable
-internal fun GameLoading() {
+internal fun GameLoading(
+    viewType: GameViewType,
+    onTapBack: () -> Unit,
+) {
     Column(
         modifier = Modifier.fillMaxSize(),
     ) {
-        GameAppbar()
+        GameAppbar(
+            viewType = viewType,
+            onTapBack = onTapBack
+        )
         Box(
             modifier = Modifier.fillMaxSize(),
             contentAlignment = Alignment.Center,

@@ -12,7 +12,7 @@ data class PlayingWord(
     val word: String,
     val wordNumber: Int,
     val lettersRows: LettersRows,
-    val lastUpdated: PlayingWordDate,
+    val lastUpdated: GameDate,
     val state: PlayingWordGameState,
 ) {
     companion object {
@@ -22,7 +22,7 @@ data class PlayingWord(
                 word = "",
                 wordNumber = 0,
                 lettersRows = persistentMapOf(),
-                lastUpdated = PlayingWordDate.noTime(),
+                lastUpdated = GameDate.noTime(),
                 state = PlayingWordGameState.Incomplete,
             )
         }

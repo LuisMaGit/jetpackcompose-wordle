@@ -10,7 +10,7 @@ data class UserWordsEntity(
     val playingState: UserWordsPlayingStateContract,
 ) {
     companion object {
-        fun fromDB(db: User_words): UserWordsEntity {
+        fun formUserWordsDb(db: User_words): UserWordsEntity {
             return UserWordsEntity(
                 wordId = db.word_rowid.toInt(),
                 letters = db.letters ?: "",

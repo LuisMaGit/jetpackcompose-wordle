@@ -2,7 +2,7 @@ package com.luisma.game.services
 
 import com.luisma.core.services.db_services.StatsSqlService
 import com.luisma.core.services.db_services.UserWordsSqlService
-import com.luisma.game.models.GameUserStatsWinDistribution
+import com.luisma.game.models.UserGameStatsWinDistribution
 import io.mockk.mockk
 import junit.framework.TestCase.assertEquals
 import org.junit.Test
@@ -45,19 +45,19 @@ class UserStatsServiceTest {
         assertEquals(
             getService().getWinDistributionWithMaxAsReference(listOf(1, 2, 3, 35)),
             listOf(
-                GameUserStatsWinDistribution(
+                UserGameStatsWinDistribution(
                     value = 1,
                     percentageWithMaxAsReference = 0.028571429f
                 ),
-                GameUserStatsWinDistribution(
+                UserGameStatsWinDistribution(
                     value = 2,
                     percentageWithMaxAsReference = 0.057142857f
                 ),
-                GameUserStatsWinDistribution(
+                UserGameStatsWinDistribution(
                     value = 3,
                     percentageWithMaxAsReference = 0.08571429f
                 ),
-                GameUserStatsWinDistribution(
+                UserGameStatsWinDistribution(
                     value = 35,
                     percentageWithMaxAsReference = 1f
                 )

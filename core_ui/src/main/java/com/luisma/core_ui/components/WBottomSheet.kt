@@ -1,6 +1,7 @@
 package com.luisma.core_ui.components
 
 import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.shape.RoundedCornerShape
@@ -70,5 +71,6 @@ fun WBottomSheet(
                 )
             }
             content()
+            Spacer(modifier = Modifier.padding(bottom = WSpacing.k80))
         }
 }

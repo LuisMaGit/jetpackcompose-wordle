@@ -1,5 +1,6 @@
 package com.luisma.core.services.db_services
 
+import com.luisma.core.models.db.JoinWordAndUserWords
 import com.luisma.core.models.db.UserWordsEntity
 import com.luisma.core.models.db.UserWordsPlayingStateContract
 import kotlinx.coroutines.CoroutineDispatcher
@@ -15,7 +16,7 @@ class UserWordsSqlService(
             try {
                 val db = dbSqlService.wordsQueries()
                     .selectCurrentlyPlayingWord().executeAsOne()
-                UserWordsEntity.fromDB(db)
+                UserWordsEntity.formUserWordsDb(db)
             } catch (e: Exception) {
                 null
             }
@@ -30,11 +31,10 @@ class UserWordsSqlService(
         return withContext(dispatcher) {
             try {
                 dbSqlService.wordsQueries().setCurrentlyPlayingWord(
-                    wordId.toLong(),
-                    lastUpdate,
-                    playingStateContract.dbValue
+                    word_rowid = wordId.toLong(),
+                    last_update = lastUpdate,
+                    playing_state = playingStateContract.dbValue
                 )
-
                 true
             } catch (e: Exception) {
                 false
@@ -64,7 +64,7 @@ class UserWordsSqlService(
                 val db = dbSqlService.wordsQueries()
                     .selectUserWordById(wordId.toLong())
                     .executeAsOne()
-                UserWordsEntity.fromDB(db)
+                UserWordsEntity.formUserWordsDb(db)
             } catch (e: Exception) {
                 null
             }
@@ -124,7 +124,7 @@ class UserWordsSqlService(
         limit: Int,
         offset: Int,
         states: List<UserWordsPlayingStateContract>
-    ): List<UserWordsEntity> {
+    ): List<JoinWordAndUserWords> {
         return withContext(dispatcher) {
             try {
                 val db = dbSqlService.wordsQueries()
@@ -133,12 +133,13 @@ class UserWordsSqlService(
                         limit = limit.toLong(),
                         offset = offset.toLong()
                     ).executeAsList()
-                db.map { UserWordsEntity.fromDB(it) }
+                db.map {
+                    JoinWordAndUserWords.fromSelectGamesPlayedByPlayingState(it)
+                }
             } catch (e: Exception) {
                 emptyList()
             }
         }
     }
-
 
 }

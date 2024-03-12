@@ -29,7 +29,8 @@ class StatsSqlService(
                 dbSqlService.wordsQueries().setUserStats(
                     current_streak = stats.currentStreak.toLong(),
                     record_streak = stats.recordStreak.toLong(),
-                    win_distribution = stats.winDistribution
+                    win_distribution = stats.winDistribution,
+                    is_first_play = stats.isFirstPlay.toLong()
                 )
                 true
             } catch (e: Exception) {

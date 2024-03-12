@@ -16,6 +16,7 @@
             <option value="$PROJECT_DIR$/core" />
             <option value="$PROJECT_DIR$/core_ui" />
             <option value="$PROJECT_DIR$/game" />
+            <option value="$PROJECT_DIR$/router" />
           </set>
         </option>
       </GradleProjectSettings>

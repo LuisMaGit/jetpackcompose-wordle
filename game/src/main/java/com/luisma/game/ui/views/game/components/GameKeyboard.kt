@@ -15,7 +15,7 @@ import com.luisma.core_ui.components.CharKeySubmitType
 import com.luisma.core_ui.components.CharKeyType
 import com.luisma.core_ui.theme.WSpacing
 import com.luisma.core_ui.theme.WThemeProvider
-import com.luisma.game.models.GameEnabledKeyState
+import com.luisma.game.models.WKeyboardKeyState
 import com.luisma.game.models.KeyboardState
 import com.luisma.game.models.WCharState
 import com.luisma.game.models.WKeyboard
@@ -29,7 +29,7 @@ internal fun GameKeyboard(
     onTapEnter: () -> Unit,
     onTapDelete: () -> Unit,
     onTapChar: (char: Char) -> Unit,
-    enabledKeyState: GameEnabledKeyState,
+    enabledKeyState: WKeyboardKeyState,
 ) {
     Column(
         modifier = modifier,
@@ -76,7 +76,7 @@ private fun KeysRows(
     onTapEnter: () -> Unit,
     onTapDelete: () -> Unit,
     onTapChar: (char: Char) -> Unit,
-    enabledKeyState: GameEnabledKeyState,
+    enabledKeyState: WKeyboardKeyState,
 ) {
 
     fun charKeyTypeMapper(state: WCharState): CharKeyType {
@@ -140,7 +140,7 @@ private fun GameKeyboardPreview() {
             keyboard = keyboardMock,
             keyDimensions = CharKeyDimensions.small(),
             keySubmitDimensions = CharKeySubmitDimensions.small(),
-            enabledKeyState = GameEnabledKeyState.allDisabled(),
+            enabledKeyState = WKeyboardKeyState.allDisabled(),
             onTapEnter = {},
             onTapDelete = {},
             onTapChar = {},

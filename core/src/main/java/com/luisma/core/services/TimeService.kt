@@ -75,8 +75,8 @@ class TimeService(
         val seconds = duration.seconds
         val hours = (seconds.floorDiv(3600)).toInt()
         val hoursRest = (seconds % 3600).toInt()
-        val min = (hoursRest / 60).toInt()
-        val sec = (hoursRest % 60).toInt()
+        val min = hoursRest / 60
+        val sec = hoursRest % 60
 
 
         return WDuration(
@@ -90,7 +90,8 @@ class TimeService(
     }
 
     private fun plus24Hours(dateTime: LocalDateTime): LocalDateTime {
-        return dateTime.plusMinutes(1)
+//        return dateTime.plusHours(24)
+        return dateTime.plusMinutes(5)
     }
 
     /**

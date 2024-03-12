@@ -23,12 +23,11 @@ class WordsSqlService(
         }
     }
 
-    suspend fun selectAvailableWordIDsForNewWOD(): List<Int>? {
+    suspend fun selectAvailableWordIDsForNewWOD(): Int? {
         return withContext(dispatcher) {
             try {
-                val db = dbSqlService.wordsQueries()
-                    .selectAvailableForNewWOD().executeAsList()
-                db.map { it.toInt() }
+                dbSqlService.wordsQueries()
+                    .selectAvailableForNewWOD().executeAsOne().toInt()
             } catch (e: Exception) {
                 null
             }

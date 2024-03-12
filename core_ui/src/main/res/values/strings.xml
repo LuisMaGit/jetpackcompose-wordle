@@ -24,9 +24,6 @@
     <string name="sun">Sunday</string>
     <string name="full_date">%1$d de %2$s, %3$s</string>
 
-    <!--    error-->
-    <string name="error_title">Algo falló :(</string>
-    <string name="error_retry_button">Reintentar</string>
     <!--    game-->
     <string name="game_enter_key">ENTER</string>
     <string name="game_word_numb">Palabra: %1$d</string>
@@ -37,17 +34,22 @@
     <string name="game_next_word_time_h">h</string>
     <string name="game_next_word_time_m">m</string>
     <string name="game_next_word_time_s">s</string>
+    <string name="game_finish">Ya jugaste todas las palabras 🎉</string>
     <!--    historic-->
     <string name="historic_title">Tus partidas</string>
     <string name="historic_empty">No tienes partidas aún</string>
     <string name="historic_tile_on_time">Acertada a tiempo</string>
     <string name="historic_tile_not_on_time">Acertada a destiempo</string>
     <string name="historic_tile_playing">En juego</string>
-    <string name="historic_tile_lose">Perdiste, la palabra era:</string>
+    <string name="historic_tile_lose">Perdiste</string>
+
+    <string name="historic_filter_empty">No hay resultados para el filtro aplicado</string>
     <string name="historic_filter_title">Filtrar</string>
+    <string name="historic_filter_on_time">Acertadas a tiempo</string>
+    <string name="historic_filter_not_on_time">Acertadas a destiempo</string>
+    <string name="historic_filter_playing">En juego</string>
     <string name="historic_filter_lose">Perdidas</string>
     <string name="historic_filter_not_played">No juagadas</string>
-    <string name="historic_filter_apply_button">Aplicar</string>
     <!--    stats-->
     <string name="stats_title">Estadísticas</string>
     <string name="stats_played">Jugados</string>

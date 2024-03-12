@@ -1,6 +1,7 @@
 package com.luisma.game.ui.views.game.components
 
 import androidx.compose.foundation.layout.Row
+import androidx.compose.material3.Surface
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
@@ -8,9 +9,9 @@ import androidx.compose.ui.tooling.preview.Preview
 import com.luisma.core_ui.R
 import com.luisma.core_ui.components.WText
 import com.luisma.core_ui.components.WTextType
+import com.luisma.core_ui.theme.WFontSize
 import com.luisma.core_ui.theme.WTheme
 import com.luisma.core_ui.theme.WThemeProvider
-import com.luisma.core_ui.theme.WFontSize
 import com.luisma.game.models.NextWordDuration
 
 @Composable
@@ -96,17 +97,19 @@ private fun Separator(
 
 
 @Composable
-@Preview(
-    showBackground = true
-)
+@Preview
 private fun GameBigTimerPreview() {
     WThemeProvider {
-        GameBigTimer(
-            nextWordDuration = NextWordDuration.zero().copy(
-                hoursStr = "23",
-                minStr = "02",
-                secStr = "38"
+        Surface(
+            color = WTheme.colors.background
+        ) {
+            GameBigTimer(
+                nextWordDuration = NextWordDuration.zero().copy(
+                    hoursStr = "23",
+                    minStr = "02",
+                    secStr = "38"
+                )
             )
-        )
+        }
     }
 }

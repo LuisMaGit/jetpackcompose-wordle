@@ -1,7 +1,10 @@
 package com.luisma.game.ui.utils
 
+import androidx.compose.runtime.Composable
+import androidx.compose.ui.res.stringResource
 import com.luisma.core.models.WDayOfWeek
 import com.luisma.core_ui.R
+import com.luisma.game.models.GameDate
 
 fun dayOfWeekUIMapper(day: WDayOfWeek): Int {
     return when (day) {
@@ -31,4 +34,26 @@ fun monthUIMapper(month: Int): Int {
         12 -> R.string.dec
         else -> 0
     }
+}
+
+@Composable
+fun fullDataUIMapper(date: GameDate): String {
+    if (date.isToday) {
+        return stringResource(R.string.today)
+    }
+
+    if (date.isYesterday) {
+        return stringResource(R.string.yesterday)
+    }
+
+    if (date.isInTheLastWeek) {
+        return stringResource(dayOfWeekUIMapper(date.dayOfWeek))
+    }
+
+    return stringResource(
+        id = R.string.full_date,
+        date.dayOfMonth,
+        monthUIMapper(date.month),
+        date.year
+    )
 }

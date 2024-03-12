@@ -4,9 +4,9 @@ import com.luisma.core.models.db.UserStatsEntity
 import com.luisma.core.models.db.UserWordsPlayingStateContract
 import com.luisma.core.services.db_services.StatsSqlService
 import com.luisma.core.services.db_services.UserWordsSqlService
-import com.luisma.game.models.GameUserStats
-import com.luisma.game.models.GameUserStatsWinDistribution
 import com.luisma.game.models.LETTERS_WORDS_SEPARATOR
+import com.luisma.game.models.UserGameStatsWinDistribution
+import com.luisma.game.models.UserGamesStats
 import kotlinx.collections.immutable.toImmutableList
 
 class UserStatsService(
@@ -48,12 +48,12 @@ class UserStatsService(
 
     fun getWinDistributionWithMaxAsReference(
         values: List<Int>
-    ): List<GameUserStatsWinDistribution> {
+    ): List<UserGameStatsWinDistribution> {
         val max = values.max()
-        val output = mutableListOf<GameUserStatsWinDistribution>()
+        val output = mutableListOf<UserGameStatsWinDistribution>()
         values.forEach { value ->
             output.add(
-                GameUserStatsWinDistribution(
+                UserGameStatsWinDistribution(
                     value = value,
                     percentageWithMaxAsReference = if (max == 0) 0f else (value.toDouble() / max).toFloat()
                 )
@@ -62,13 +62,13 @@ class UserStatsService(
         return output
     }
 
-    suspend fun getUserStats(): GameUserStats {
+    suspend fun getUserStats(): UserGamesStats {
         val playedGames = userWordsSqlService.selectPlayedCount()
         val solvedInTimeGames = userWordsSqlService.selectGamesPlayedCountByPlayingState(
             UserWordsPlayingStateContract.SOLVED_IN_TIME
         )
         if (playedGames == null || solvedInTimeGames == null) {
-            return GameUserStats.empty()
+            return UserGamesStats.empty()
         }
         val winedPercentage = getWinedPercentage(
             total = playedGames,
@@ -77,7 +77,7 @@ class UserStatsService(
 
         val statsEntity = statsSqlService.selectUserStats()
         if (statsEntity?.winDistribution == null || statsEntity.winDistribution.isEmpty()) {
-            return GameUserStats.empty()
+            return UserGamesStats.empty()
         }
         val winDistributionInt = winDistributionFromStrToInt(
             values = statsEntity.winDistribution
@@ -85,7 +85,7 @@ class UserStatsService(
         val winDistribution = getWinDistributionWithMaxAsReference(
             winDistributionInt
         )
-        return GameUserStats(
+        return UserGamesStats(
             playedGames = playedGames,
             winedPercentage = winedPercentage,
             currentStreak = statsEntity.currentStreak,
@@ -121,8 +121,18 @@ class UserStatsService(
             UserStatsEntity(
                 currentStreak = currentStreak,
                 recordStreak = recordStreak,
-                winDistribution = winDistributionFromIntToStr(winDistributionInt)
+                winDistribution = winDistributionFromIntToStr(winDistributionInt),
+                isFirstPlay = statsEntity.isFirstPlay
             )
         )
+    }
+
+    suspend fun isFirstPlay(): Boolean {
+        return statsSqlService.selectUserStats()?.isFirstPlay == 1
+    }
+
+    suspend fun unCheckIsFirstPlay() {
+        val statsEntity = statsSqlService.selectUserStats() ?: return
+        statsSqlService.setUserStats(statsEntity.copy(isFirstPlay = 0))
     }
 }

@@ -7,6 +7,7 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
+import androidx.compose.material3.Surface
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -19,6 +20,7 @@ import com.luisma.core_ui.components.WText
 import com.luisma.core_ui.theme.WFontSize
 import com.luisma.core_ui.theme.WScreenFractions
 import com.luisma.core_ui.theme.WSpacing
+import com.luisma.core_ui.theme.WTheme
 import com.luisma.core_ui.theme.WThemeProvider
 import com.luisma.game.models.WChar
 import com.luisma.game.models.WCharState
@@ -28,7 +30,7 @@ import com.luisma.game.ui.views.tutorial.components.TutorialHighlightCharText
 import kotlinx.collections.immutable.persistentListOf
 
 @Composable
-fun Tutorial() {
+fun TutorialView() {
     val scrollState = rememberScrollState()
     Box(
         modifier = Modifier.fillMaxWidth()
@@ -97,7 +99,7 @@ fun Tutorial() {
             }
             Spacer(modifier = Modifier.padding(bottom = WSpacing.k10))
             TutorialHighlightCharText(
-                char = "D",
+                char = "E",
                 text = stringResource(id = R.string.tutorial_example_2)
             )
             Spacer(modifier = Modifier.padding(bottom = WSpacing.k18))
@@ -129,15 +131,14 @@ fun Tutorial() {
 }
 
 @Composable
-fun TutorialBs(
+fun TutorialViewBs(
     onDismissRequest: () -> Unit
 ) {
     WBottomSheet(
         show = true,
         onDismissRequest = onDismissRequest
     ) {
-        Tutorial()
-        Spacer(modifier = Modifier.padding(bottom = WSpacing.k80))
+        TutorialView()
     }
 }
 
@@ -146,8 +147,14 @@ fun TutorialBs(
     showBackground = true
 )
 @Composable
-private fun TutorialPrev() {
-    WThemeProvider {
-        Tutorial()
+private fun TutorialViewPrev() {
+    WThemeProvider(
+        darkTheme = true
+    ) {
+        Surface(
+            color =  WTheme.colors.background
+        ) {
+            TutorialView()
+        }
     }
 }

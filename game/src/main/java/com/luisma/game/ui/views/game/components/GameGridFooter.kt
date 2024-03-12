@@ -1,9 +1,11 @@
 package com.luisma.game.ui.views.game.components
 
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
+import androidx.compose.material3.Surface
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -14,9 +16,9 @@ import androidx.compose.ui.unit.dp
 import com.luisma.core_ui.R
 import com.luisma.core_ui.components.WText
 import com.luisma.core_ui.components.WTextType
+import com.luisma.core_ui.theme.WFontSize
 import com.luisma.core_ui.theme.WTheme
 import com.luisma.core_ui.theme.WThemeProvider
-import com.luisma.core_ui.theme.WFontSize
 import com.luisma.game.models.NextWordDuration
 
 
@@ -112,21 +114,23 @@ private fun FooterText(
 }
 
 
-@Preview(
-    showBackground = true,
-)
+@Preview
 @Composable
 private fun GameGridFooterPreview() {
     WThemeProvider(
         darkTheme = true
     ) {
-        Column {
-            GameGridFooterWordNumber(
-                playingWordNumb = 20
-            )
-            GameGridFooterNextWordTimer(
-                nextWordDuration = NextWordDuration.zero()
-            )
+        Surface(
+            color = WTheme.colors.background
+        ) {
+            Column {
+                GameGridFooterWordNumber(
+                    playingWordNumb = 20
+                )
+                GameGridFooterNextWordTimer(
+                    nextWordDuration = NextWordDuration.zero()
+                )
+            }
         }
     }
 }

@@ -13,8 +13,9 @@ dependencyResolutionManagement {
     }
 }
 
-rootProject.name = "wordle"
+rootProject.name = "palabri"
 include(":app")
 include(":core_ui")
 include(":core")
 include(":game")
+include(":router")

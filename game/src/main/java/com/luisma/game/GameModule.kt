@@ -1,12 +1,14 @@
 package com.luisma.game
 
 import com.luisma.core.services.NumbService
+import com.luisma.core.services.PaginationService
 import com.luisma.core.services.TimeService
 import com.luisma.core.services.db_services.StatsSqlService
 import com.luisma.core.services.db_services.UserWordsSqlService
 import com.luisma.core.services.db_services.WordsSqlService
 import com.luisma.game.services.GameUtilsService
 import com.luisma.game.services.PlayingWordService
+import com.luisma.game.services.UserHistoricService
 import com.luisma.game.services.UserStatsService
 import com.luisma.game.services.WordOfDayService
 import dagger.Module
@@ -27,14 +29,12 @@ class GameModule {
     fun wordOfDayService(
         timeService: TimeService,
         wordsSqlService: WordsSqlService,
-        numbService: NumbService,
         userStatsService: UserStatsService,
         userWordsSqlService: UserWordsSqlService
     ): WordOfDayService {
         return WordOfDayService(
             timeService = timeService,
             wordsSqlService = wordsSqlService,
-            numbService = numbService,
             userStatsService = userStatsService,
             userWordsSqlService = userWordsSqlService
         )
@@ -65,6 +65,21 @@ class GameModule {
         return UserStatsService(
             userWordsSqlService = userWordsSqlService,
             statsSqlService = statsSqlService,
+        )
+    }
+
+    @Provides
+    fun userHistoricService(
+        userWordsSqlService: UserWordsSqlService,
+        paginationService: PaginationService,
+        gameUtilsService: GameUtilsService,
+        timeService: TimeService
+    ): UserHistoricService {
+        return UserHistoricService(
+            userWordsSqlService = userWordsSqlService,
+            paginationService = paginationService,
+            gameUtilsService = gameUtilsService,
+            timeService = timeService
         )
     }
 }
