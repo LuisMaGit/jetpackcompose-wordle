@@ -12,6 +12,7 @@ import com.luisma.core_ui.components.WText
 fun HistoricEmpty(
     onTapBack: () -> Unit,
     onTapFilter: (() -> Unit)?,
+    onTapRefresh: (() -> Unit)?,
     text: String,
     isFilterApplied: Boolean,
 ) {
@@ -20,6 +21,7 @@ fun HistoricEmpty(
         horizontalAlignment = Alignment.CenterHorizontally,
         onTapBack = onTapBack,
         onTapFilter = onTapFilter,
+        onTapRefresh = onTapRefresh,
         isFilterApplied = isFilterApplied
     ) {
         Spacer(modifier = Modifier.weight(1f))

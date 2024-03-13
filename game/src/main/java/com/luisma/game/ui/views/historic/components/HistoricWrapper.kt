@@ -12,6 +12,7 @@ fun HistoricWrapper(
     horizontalAlignment: Alignment.Horizontal = Alignment.Start,
     onTapBack: () -> Unit,
     onTapFilter: (() -> Unit)? = null,
+    onTapRefresh: (() -> Unit)? = null,
     isFilterApplied: Boolean,
     content: @Composable ColumnScope.() -> Unit
 ) {
@@ -22,6 +23,7 @@ fun HistoricWrapper(
         HistoricAppbar(
             onTapBack = onTapBack,
             onTapFilter = onTapFilter,
+            onTapRefresh = onTapRefresh,
             isFilterApplied = isFilterApplied
         )
         content()

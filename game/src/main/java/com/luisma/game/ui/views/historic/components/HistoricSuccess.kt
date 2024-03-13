@@ -35,7 +35,8 @@ fun HistoricSuccess(
             } else {
                 stringResource(id = R.string.historic_empty)
             },
-            isFilterApplied = state.isTheFilterApplied
+            isFilterApplied = state.isTheFilterApplied,
+            onTapRefresh = { events(HistoricViewEvents.Refresh) }
         )
     } else {
         HistoricList(
@@ -46,6 +47,7 @@ fun HistoricSuccess(
             onTapFilter = { events(HistoricViewEvents.HandleFilter(showFilter = true)) },
             onTapTile = { index -> events(HistoricViewEvents.OnTapTile(index = index)) },
             isFilterApplied = state.isTheFilterApplied,
+            onTapRefresh = { events(HistoricViewEvents.Refresh) }
         )
     }
 

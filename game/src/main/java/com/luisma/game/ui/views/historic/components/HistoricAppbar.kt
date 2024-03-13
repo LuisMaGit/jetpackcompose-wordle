@@ -22,6 +22,7 @@ import com.luisma.core_ui.theme.WThemeProvider
 internal fun HistoricAppbar(
     onTapBack: () -> Unit,
     onTapFilter: (() -> Unit)? = null,
+    onTapRefresh: (() -> Unit)? = null,
     isFilterApplied: Boolean,
 ) {
     Row(
@@ -42,6 +43,12 @@ internal fun HistoricAppbar(
             text = stringResource(id = R.string.historic_title),
             fontSize = WFontSize.k32
         )
+        WIconButton(
+            id = R.drawable.ic_refresh,
+            enabled = onTapRefresh != null,
+            onTap = { if (onTapRefresh != null) onTapRefresh() }
+        )
+        Spacer(modifier = Modifier.padding(end = WSpacing.k20))
         WIconButton(
             id = R.drawable.ic_filter,
             enabled = onTapFilter != null,

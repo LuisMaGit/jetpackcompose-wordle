@@ -32,29 +32,18 @@ class HistoricViewModel @Inject constructor(
 
     fun sendEvent(events: HistoricViewEvents) {
         when (events) {
-            is HistoricViewEvents.OnLastItemCreation -> onLastItemCreation()
             is HistoricViewEvents.GoBack -> goBack()
+            is HistoricViewEvents.OnLastItemCreation -> onLastItemCreation()
+            is HistoricViewEvents.Refresh -> refresh()
             is HistoricViewEvents.HandleFilter -> handleFilter(events.showFilter)
             is HistoricViewEvents.SetFilter -> setFilter(events.filter)
             is HistoricViewEvents.OnTapTile -> onTapTile(events.index)
         }
     }
 
-    private fun getHistoricData() {
+    private fun goBack() {
         viewModelScope.launch {
-            val historicResp = userHistoricService.getHistoricWords(
-                page = _state.value.page,
-                filter = _state.value.filter
-            )
-            _state.update {
-                it.copy(
-                    historic = historicResp.data,
-                    isLastPage = historicResp.isLastPage,
-                    screenState = BasicScreenState.Success,
-                    isTheFilterApplied = _state.value.filter.count() !=
-                            UserWordsPlayingStateContract.values().count()
-                )
-            }
+            routerService.goBack()
         }
     }
 
@@ -87,10 +76,32 @@ class HistoricViewModel @Inject constructor(
 
     }
 
-    private fun goBack() {
+    private fun getHistoricData() {
         viewModelScope.launch {
-            routerService.goBack()
+            val historicResp = userHistoricService.getHistoricWords(
+                page = _state.value.page,
+                filter = _state.value.filter
+            )
+            _state.update {
+                it.copy(
+                    historic = historicResp.data,
+                    isLastPage = historicResp.isLastPage,
+                    screenState = BasicScreenState.Success,
+                    isTheFilterApplied = _state.value.filter.count() !=
+                            UserWordsPlayingStateContract.values().count()
+                )
+            }
         }
+    }
+
+    private fun refresh() {
+        _state.update {
+            HistoricViewState.initial().copy(
+                filter = _state.value.filter,
+                isTheFilterApplied = _state.value.isTheFilterApplied
+            )
+        }
+        getHistoricData()
     }
 
     private fun handleFilter(show: Boolean) {

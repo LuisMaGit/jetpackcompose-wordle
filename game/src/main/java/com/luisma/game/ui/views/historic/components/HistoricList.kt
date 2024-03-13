@@ -25,6 +25,7 @@ fun HistoricList(
     onTapTile: (index: Int) -> Unit,
     triggerPagination: () -> Unit,
     onTapFilter: () -> Unit,
+    onTapRefresh: () -> Unit,
     isFilterApplied: Boolean,
     historic: ImmutableList<UserHistoricWord>
 ) {
@@ -36,7 +37,8 @@ fun HistoricList(
             horizontalAlignment = Alignment.CenterHorizontally,
             onTapBack = onTapBack,
             onTapFilter = onTapFilter,
-            isFilterApplied = isFilterApplied
+            isFilterApplied = isFilterApplied,
+            onTapRefresh = onTapRefresh
         ) {
             LazyColumn(
                 horizontalAlignment = Alignment.CenterHorizontally
