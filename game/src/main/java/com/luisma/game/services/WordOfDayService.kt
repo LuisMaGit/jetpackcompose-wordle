@@ -2,7 +2,6 @@ package com.luisma.game.services
 
 import com.luisma.core.models.db.UserWordsPlayingStateContract
 import com.luisma.core.models.db.WordEntity
-import com.luisma.core.services.NumbService
 import com.luisma.core.services.TimeService
 import com.luisma.core.services.db_services.UserWordsSqlService
 import com.luisma.core.services.db_services.WordsSqlService
@@ -45,7 +44,7 @@ class WordOfDayService(
     private suspend fun setAndGetWOD(
         wordOfDayNumber: Int
     ): WordOfDay? {
-        val id = wordsSqlService.selectAvailableWordIDsForNewWOD() ?:         return null
+        val id = wordsSqlService.selectAvailableWordIDsForNewWOD() ?: return null
         // set new WOD
         val now = timeService.getWTimeNow()
         val nowStr = timeService.fromWTimeToStr(now)

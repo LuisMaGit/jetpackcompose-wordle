@@ -44,7 +44,7 @@ dependencies {
     implementation(Kotlin.kotlinXImmutable)
 
     // compose
-    implementation(platform(Compose.bom))
+    implementation(platform(Compose.billOfMaterials))
     implementation(Compose.activityCompose)
     implementation(Compose.ui)
     implementation(Compose.uiGraphics)

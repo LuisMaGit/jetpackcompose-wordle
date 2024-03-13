@@ -5,7 +5,7 @@ object Compose {
 
     const val composeCompilerVersion = "1.4.3"
     private const val bomDate = "2024.02.00"
-    const val bom =  "androidx.compose:compose-bom:$bomDate"
+    const val billOfMaterials = "androidx.compose:compose-bom:$bomDate"
     const val ui = "androidx.compose.ui:ui"
     const val uiGraphics = "androidx.compose.ui:ui-graphics"
     const val uiTooling = "androidx.compose.ui:ui-tooling"

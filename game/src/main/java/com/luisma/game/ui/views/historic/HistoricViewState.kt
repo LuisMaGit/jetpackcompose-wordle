@@ -14,7 +14,7 @@ data class HistoricViewState(
     val page: Int,
     val loadingNextPage: Boolean,
     val showFilter: Boolean,
-    val isTheFilterApplied : Boolean
+    val isTheFilterApplied: Boolean
 ) {
     companion object {
         fun initial(): HistoricViewState {

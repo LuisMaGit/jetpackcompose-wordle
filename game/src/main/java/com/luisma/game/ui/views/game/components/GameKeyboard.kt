@@ -15,10 +15,10 @@ import com.luisma.core_ui.components.CharKeySubmitType
 import com.luisma.core_ui.components.CharKeyType
 import com.luisma.core_ui.theme.WSpacing
 import com.luisma.core_ui.theme.WThemeProvider
-import com.luisma.game.models.WKeyboardKeyState
 import com.luisma.game.models.KeyboardState
 import com.luisma.game.models.WCharState
 import com.luisma.game.models.WKeyboard
+import com.luisma.game.models.WKeyboardKeyState
 
 @Composable
 internal fun GameKeyboard(

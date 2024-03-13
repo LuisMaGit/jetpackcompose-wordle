@@ -4,7 +4,6 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
@@ -35,7 +34,7 @@ fun StatPercentBar(
     } else {
         colors.placeholderBorderBold
     }
-    val valueStr = if(percentage != 0f) "\t$value\t" else value.toString()
+    val valueStr = if (percentage != 0f) "\t$value\t" else value.toString()
     Row(
         modifier = modifier,
         verticalAlignment = Alignment.CenterVertically

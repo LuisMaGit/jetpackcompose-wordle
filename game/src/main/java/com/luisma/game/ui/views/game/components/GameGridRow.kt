@@ -30,7 +30,6 @@ internal fun GameGridRow(
 ) {
 
 
-
     fun charAnimationMapper(animation: WCharAnimationState): CharBoxAnimationType {
         return when (animation) {
             WCharAnimationState.Still -> CharBoxAnimationType.NoAnimation

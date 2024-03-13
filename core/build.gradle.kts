@@ -4,6 +4,7 @@ plugins {
     id("app.cash.sqldelight") version Sql.sqlDelightVersion
     kotlin("kapt")
     id("com.google.dagger.hilt.android")
+    id("com.google.gms.google-services")
 }
 
 android {
@@ -42,6 +43,10 @@ dependencies {
     testImplementation(Test.junit4)
     testImplementation(Test.mockkAgent)
     testImplementation(Test.mockkAndroid)
+
+    // firebase
+    implementation(platform(Firebase.billOfMaterials))
+    implementation(Firebase.analytics)
 }
 
 sqldelight {

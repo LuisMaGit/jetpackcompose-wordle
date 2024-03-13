@@ -52,7 +52,7 @@ fun Router(
                 type = NavType.StringType
             })
         ) {
-             GameViewBuilder()
+            GameViewBuilder()
         }
     }
 }

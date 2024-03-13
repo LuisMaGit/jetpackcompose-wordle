@@ -1,6 +1,5 @@
 package com.luisma.game
 
-import com.luisma.core.services.NumbService
 import com.luisma.core.services.PaginationService
 import com.luisma.core.services.TimeService
 import com.luisma.core.services.db_services.StatsSqlService
@@ -73,13 +72,15 @@ class GameModule {
         userWordsSqlService: UserWordsSqlService,
         paginationService: PaginationService,
         gameUtilsService: GameUtilsService,
-        timeService: TimeService
+        timeService: TimeService,
+        wordsSqlService: WordsSqlService
     ): UserHistoricService {
         return UserHistoricService(
             userWordsSqlService = userWordsSqlService,
             paginationService = paginationService,
             gameUtilsService = gameUtilsService,
-            timeService = timeService
+            timeService = timeService,
+            wordSqlService = wordsSqlService
         )
     }
 }

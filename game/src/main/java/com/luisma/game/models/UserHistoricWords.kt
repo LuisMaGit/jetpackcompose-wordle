@@ -11,7 +11,7 @@ data class UserHistoricWordsPage(
     val isLastPage: Boolean,
 ) {
     companion object {
-        fun empty() : UserHistoricWordsPage{
+        fun empty(): UserHistoricWordsPage {
             return UserHistoricWordsPage(
                 data = persistentListOf(),
                 isLastPage = true
@@ -27,5 +27,6 @@ data class UserHistoricWord(
     val date: GameDate,
     val tryNumber: Int,
     val maxTries: Int,
-    val wordId: Int
+    val wordId: Int,
+    val isWOD: Boolean
 )

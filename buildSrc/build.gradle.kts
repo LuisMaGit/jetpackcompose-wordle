@@ -1,10 +1,8 @@
-import org.gradle.kotlin.dsl.`kotlin-dsl`
-
-repositories{
+repositories {
     google()
     mavenCentral()
 }
 
-plugins{
+plugins {
     `kotlin-dsl`
 }

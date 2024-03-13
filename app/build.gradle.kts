@@ -1,13 +1,31 @@
+import com.android.build.gradle.internal.scope.ProjectInfo.Companion.getBaseName
+import java.util.Properties
+import java.io.FileInputStream
+
 plugins {
     id("com.android.application")
     id("org.jetbrains.kotlin.android")
     kotlin("kapt")
     id("com.google.dagger.hilt.android")
+    id("com.google.gms.google-services")
 }
+
+val keystorePropertiesFile = rootProject.file("keystore.properties")
+val keystoreProperties = Properties()
+keystoreProperties.load(FileInputStream(keystorePropertiesFile))
 
 android {
     namespace = ProjectConfig.applicationId
     compileSdk = ProjectConfig.compileSdk
+
+    signingConfigs {
+        create("release") {
+            keyAlias = keystoreProperties["keyAlias"] as String
+            keyPassword = keystoreProperties["keyPassword"] as String
+            storeFile = file(keystoreProperties["storeFile"] as String)
+            storePassword = keystoreProperties["storePassword"] as String
+        }
+    }
 
     defaultConfig {
         applicationId = ProjectConfig.applicationId
@@ -23,12 +41,22 @@ android {
     }
 
     buildTypes {
-        release {
+//        release {
+//            isMinifyEnabled = false
+//            proguardFiles(
+//                getDefaultProguardFile("proguard-android-optimize.txt"),
+//                "proguard-rules.pro"
+//            )
+//        }
+        getByName("release") {
             isMinifyEnabled = false
-            proguardFiles(
-                getDefaultProguardFile("proguard-android-optimize.txt"),
-                "proguard-rules.pro"
-            )
+            proguardFiles(getDefaultProguardFile("proguard-android-optimize.txt"), "proguard-rules.pro")
+            signingConfig = signingConfigs.getByName("release")
+            isDebuggable = false
+        }
+        getByName("debug") {
+            signingConfig = signingConfigs.getByName("release")
+            isDebuggable = true
         }
     }
     compileOptions {
@@ -66,7 +94,7 @@ dependencies {
     implementation(Kotlin.kotlinXImmutable)
 
     // compose
-    implementation(platform(Compose.bom))
+    implementation(platform(Compose.billOfMaterials))
     implementation(Compose.activityCompose)
     implementation(Compose.ui)
     implementation(Compose.uiGraphics)
@@ -79,6 +107,13 @@ dependencies {
     implementation(Hilt.hiltAndroid)
     implementation(Hilt.hiltNavigation)
     kapt(Hilt.hiltCompiler)
+
+    // firebase
+    implementation(platform(Firebase.billOfMaterials))
+    implementation(Firebase.analytics)
+
+    // ad mob
+    implementation(AddMob.ads)
 
     // test
     testImplementation(Test.junit4)

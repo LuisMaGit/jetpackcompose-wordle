@@ -5,6 +5,7 @@ import com.luisma.core.models.db.UserWordsPlayingStateContract
 import com.luisma.core.services.PaginationService
 import com.luisma.core.services.TimeService
 import com.luisma.core.services.db_services.UserWordsSqlService
+import com.luisma.core.services.db_services.WordsSqlService
 import com.luisma.game.models.GameDate
 import com.luisma.game.models.MAX_NUMBER_OF_TRIES_TO_GUESS
 import com.luisma.game.models.UserHistoricFilterCount
@@ -20,6 +21,7 @@ class UserHistoricService(
     private val userWordsSqlService: UserWordsSqlService,
     private val paginationService: PaginationService,
     private val gameUtilsService: GameUtilsService,
+    private val wordSqlService: WordsSqlService,
     private val timeService: TimeService
 ) {
 
@@ -28,7 +30,8 @@ class UserHistoricService(
         lastUpdate: String,
         toGuessWord: String,
         wordId: Int,
-        playingState: UserWordsPlayingStateContract
+        playingState: UserWordsPlayingStateContract,
+        wordOfDayId: Int,
     ): UserHistoricWord {
 
         // date
@@ -59,7 +62,8 @@ class UserHistoricService(
             date = date,
             tryNumber = tryNumber,
             maxTries = MAX_NUMBER_OF_TRIES_TO_GUESS,
-            wordId = wordId
+            wordId = wordId,
+            isWOD = wordId == wordOfDayId
         )
     }
 
@@ -98,6 +102,7 @@ class UserHistoricService(
         if (entityWords.isEmpty())
             return UserHistoricWordsPage.empty()
 
+        val wod = wordSqlService.selectWOD()
         return UserHistoricWordsPage(
             isLastPage = paginationService.isLastPage(entityWords.count()),
             data = entityWords.map { entity ->
@@ -106,7 +111,8 @@ class UserHistoricService(
                     toGuessWord = entity.word,
                     playingState = entity.playingState,
                     lastUpdate = entity.lastUpdate,
-                    wordId = entity.wordId
+                    wordId = entity.wordId,
+                    wordOfDayId = wod?.wordId ?: 0
                 )
             }.toImmutableList()
         )

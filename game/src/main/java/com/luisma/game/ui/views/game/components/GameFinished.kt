@@ -18,7 +18,7 @@ internal fun GameFinished(
     events: (event: GameViewEvents) -> Unit,
 ) {
 
-    Column (
+    Column(
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
         GameAppbar(

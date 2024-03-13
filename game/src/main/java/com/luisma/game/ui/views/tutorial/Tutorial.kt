@@ -152,7 +152,7 @@ private fun TutorialViewPrev() {
         darkTheme = true
     ) {
         Surface(
-            color =  WTheme.colors.background
+            color = WTheme.colors.background
         ) {
             TutorialView()
         }

@@ -5,9 +5,9 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
+import com.luisma.core_ui.theme.WFontSize
 import com.luisma.core_ui.theme.WTheme
 import com.luisma.core_ui.theme.WThemeProvider
-import com.luisma.core_ui.theme.WFontSize
 
 @Composable
 fun StatIndicator(

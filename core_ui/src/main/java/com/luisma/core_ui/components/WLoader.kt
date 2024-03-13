@@ -30,8 +30,8 @@ fun WLoader(
     WLogo(
         modifier = modifier
             .graphicsLayer {
-            rotationY = rotation
-        },
+                rotationY = rotation
+            },
     )
 }
 

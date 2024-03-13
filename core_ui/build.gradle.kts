@@ -35,11 +35,15 @@ dependencies {
     implementation(AndroidX.lifecycleRunTime)
 
     // compose
-    implementation(platform(Compose.bom))
+    implementation(platform(Compose.billOfMaterials))
     implementation(Compose.activityCompose)
     implementation(Compose.ui)
     implementation(Compose.uiGraphics)
     implementation(Compose.uiTooling)
     implementation(Compose.material)
     debugImplementation(Compose.uiToolingPreview)
+
+
+    // ad mob
+    implementation(AddMob.ads)
 }

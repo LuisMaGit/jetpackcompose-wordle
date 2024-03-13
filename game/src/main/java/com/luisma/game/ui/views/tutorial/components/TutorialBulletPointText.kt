@@ -20,5 +20,5 @@ fun TutorialBulletPointText(
             text = text,
             wTextType = WTextType.T3
         )
-    }    
+    }
 }

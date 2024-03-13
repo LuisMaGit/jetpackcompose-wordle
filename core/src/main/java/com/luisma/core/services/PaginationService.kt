@@ -4,14 +4,14 @@ class PaginationService(
     private val desiredItemsInPage: Int = 50
 ) {
 
-    fun toSql(page: Int) : PaginationToSql{
+    fun toSql(page: Int): PaginationToSql {
         return PaginationToSql(
             offset = page * desiredItemsInPage,
             limit = desiredItemsInPage
         )
     }
 
-    fun isLastPage(itemsInLastPage: Int) : Boolean {
+    fun isLastPage(itemsInLastPage: Int): Boolean {
         return itemsInLastPage < desiredItemsInPage
     }
 }

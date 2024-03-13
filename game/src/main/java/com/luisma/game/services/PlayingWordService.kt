@@ -7,8 +7,8 @@ import com.luisma.core.models.db.UserWordsPlayingStateContract
 import com.luisma.core.services.TimeService
 import com.luisma.core.services.db_services.UserWordsSqlService
 import com.luisma.core.services.db_services.WordsSqlService
-import com.luisma.game.models.PlayingWord
 import com.luisma.game.models.GameDate
+import com.luisma.game.models.PlayingWord
 import com.luisma.game.models.WordOfDay
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.Flow
@@ -164,7 +164,7 @@ class PlayingWordService(
     /**
      * finds directly the played word by the user in the db
      */
-    suspend fun getUserWordById(wordId: Int) : PlayingWord? {
+    suspend fun getUserWordById(wordId: Int): PlayingWord? {
         val entity = userWordsSqlService.selectWordById(wordId)
         return mapUserWordEntityToPlayingWord(entity)
     }

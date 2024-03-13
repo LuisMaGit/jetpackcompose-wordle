@@ -78,7 +78,8 @@ private fun HistoricSuccessPrev() {
                             tryNumber = 3,
                             maxTries = 6,
                             date = GameDate.noTime(),
-                            wordId = 0
+                            wordId = 0,
+                            isWOD = false
                         )
                     )
                 ),

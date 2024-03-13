@@ -1,13 +1,13 @@
 package com.luisma.game.services
 
 import com.luisma.game.models.GameCursorPosition
-import com.luisma.game.models.WKeyboardKeyState
 import com.luisma.game.models.ListCharsWithState
 import com.luisma.game.models.PlayingWordGameState
 import com.luisma.game.models.WChar
 import com.luisma.game.models.WCharAnimationState
 import com.luisma.game.models.WCharState
 import com.luisma.game.models.WKeyboard
+import com.luisma.game.models.WKeyboardKeyState
 import junit.framework.TestCase.assertEquals
 import kotlinx.collections.immutable.persistentListOf
 import kotlinx.collections.immutable.persistentMapOf

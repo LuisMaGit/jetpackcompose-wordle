@@ -13,3 +13,8 @@
 .externalNativeBuild
 .cxx
 local.properties
+/app/google-services.json
+/app/src/main/res/values/secrets.xml
+/core_ui/src/main/res/values/secrets.xml
+/keystore.properties
+upload-keystore.jks

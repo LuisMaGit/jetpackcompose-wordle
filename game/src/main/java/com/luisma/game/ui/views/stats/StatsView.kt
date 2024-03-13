@@ -1,9 +1,7 @@
 package com.luisma.game.ui.views.stats
 
 import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.padding
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.DisposableEffect
 import androidx.compose.ui.Alignment
@@ -12,7 +10,6 @@ import com.luisma.core.models.BasicScreenState
 import com.luisma.core_ui.components.WBottomSheet
 import com.luisma.core_ui.components.WLoader
 import com.luisma.core_ui.theme.WScreenFractions
-import com.luisma.core_ui.theme.WSpacing
 import com.luisma.game.ui.views.stats.components.StatsSuccess
 
 @Composable

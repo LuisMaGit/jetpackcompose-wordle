@@ -1,6 +1,7 @@
 package com.luisma.core
 
 import android.app.Application
+import com.luisma.core.services.AnalyticsService
 import com.luisma.core.services.NumbService
 import com.luisma.core.services.PaginationService
 import com.luisma.core.services.RouterService
@@ -93,6 +94,12 @@ class CoreModule {
     @Singleton
     fun routerService(): RouterService {
         return RouterService()
+    }
+
+    @Provides
+    @Singleton
+    fun analyticsService(): AnalyticsService {
+        return AnalyticsService()
     }
 
 }

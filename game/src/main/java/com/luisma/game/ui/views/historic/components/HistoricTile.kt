@@ -142,7 +142,8 @@ private fun HistoricSuccessPrev() {
                     ),
                     maxTries = 6,
                     tryNumber = 3,
-                    wordId = 0
+                    wordId = 0,
+                    isWOD = false
                 ),
                 boxDimensions = CharBoxDimensions.small(),
                 onTap = {}

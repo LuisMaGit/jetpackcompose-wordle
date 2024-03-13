@@ -3,7 +3,6 @@ package com.luisma.game.ui.views.game.components
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.core.tween
 import androidx.compose.animation.fadeIn
-import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
@@ -22,13 +21,13 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.Dp
 import com.luisma.core.models.BasicScreenState
 import com.luisma.core_ui.R
+import com.luisma.core_ui.components.AdMobBanner
 import com.luisma.core_ui.components.CharBoxDimensions
 import com.luisma.core_ui.components.CharKeyDimensions
 import com.luisma.core_ui.components.CharKeySubmitDimensions
 import com.luisma.core_ui.components.WText
 import com.luisma.core_ui.components.WTextType
 import com.luisma.core_ui.helpers.ScreenSizeHelper
-import com.luisma.core_ui.theme.WColorContract
 import com.luisma.core_ui.theme.WFontSize
 import com.luisma.core_ui.theme.WScreenFractions
 import com.luisma.core_ui.theme.WSpacing
@@ -143,6 +142,7 @@ internal fun GamePlay(
             // keyboard
             if (state.showKeyboard)
                 GameKeyboard(
+                    modifier = Modifier.padding(top = WSpacing.k40),
                     keyDimensions = CharKeyDimensions.keyDimensionsByScreenSize(
                         screenSizeBreakPoints
                     ),
@@ -186,6 +186,12 @@ internal fun GamePlay(
                     nextWordDuration = state.nextWODDuration
                 )
             }
+
+            // ads
+            AdMobBanner(
+                modifier = Modifier.padding(top = WSpacing.k20),
+                adId = stringResource(id = R.string.ad_mob_id)
+            )
         }
     }
 }

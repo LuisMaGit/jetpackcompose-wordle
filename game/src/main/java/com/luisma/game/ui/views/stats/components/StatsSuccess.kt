@@ -1,6 +1,5 @@
 package com.luisma.game.ui.views.stats.components
 
-import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -22,8 +21,6 @@ import com.luisma.core_ui.theme.WTheme
 import com.luisma.core_ui.theme.WThemeProvider
 import com.luisma.game.models.UserGameStatsWinDistribution
 import com.luisma.game.models.UserGamesStats
-import com.luisma.game.ui.views.historic.HistoricView
-import com.luisma.game.ui.views.historic.HistoricViewState
 import com.luisma.game.ui.views.stats.StatsViewState
 import kotlinx.collections.immutable.ImmutableList
 import kotlinx.collections.immutable.persistentListOf

@@ -1,3 +1,3 @@
 object Build {
-     const val androidGradlePlugin = "8.1.1"
+    const val androidGradlePlugin = "8.1.1"
 }

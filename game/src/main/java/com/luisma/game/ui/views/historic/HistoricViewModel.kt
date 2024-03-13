@@ -113,11 +113,18 @@ class HistoricViewModel @Inject constructor(
     }
 
     private fun onTapTile(index: Int) {
+        val word = _state.value.historic[index]
+        if (word.isWOD) {
+            viewModelScope.launch {
+                routerService.goBack()
+            }
+            return
+        }
         viewModelScope.launch {
             routerService.goTo(
                 RoutePayload(
                     route = Routes.GameHistoric,
-                    payload = _state.value.historic[index].wordId.toString()
+                    payload = word.wordId.toString()
                 ),
             )
         }

@@ -1,6 +1,5 @@
 package com.luisma.game.ui.views.historic_filter
 
-import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
@@ -86,7 +85,7 @@ fun HistoricFilterView(
                 WCheckBox(
                     modifier = Modifier.padding(bottom = WSpacing.k18),
                     enabled = filter.selected,
-                    text = stringResource(id = textStateMapper(filter.state)),
+                    text = "${stringResource(id = textStateMapper(filter.state))} (${filter.count})",
                     onTap = {
                         events(HistoricFilterEvents.ToggleFilter(index))
                     },
@@ -130,14 +129,15 @@ fun HistoricFilterViewPrev() {
         darkTheme = true
     ) {
         Surface(
-            color =  WTheme.colors.background
+            color = WTheme.colors.background
         ) {
             val filters = mutableListOf<HistoricFilterSelection>()
             for (state in UserWordsPlayingStateContract.values()) {
                 filters.add(
                     HistoricFilterSelection(
                         selected = true,
-                        state = state
+                        state = state,
+                        count = 0
                     )
                 )
             }

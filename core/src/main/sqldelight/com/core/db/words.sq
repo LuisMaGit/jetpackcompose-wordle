@@ -39,7 +39,7 @@ selectGamesPlayedByPlayingState:
 SELECT *
 FROM (SELECT *
     FROM user_words
-    WHERE playing_state IN ? AND currently_playing != 1
+    WHERE playing_state IN ?
     ORDER BY rowid DESC
     LIMIT :limit
     OFFSET :offset) uw

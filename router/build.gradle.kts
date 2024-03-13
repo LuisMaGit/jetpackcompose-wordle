@@ -37,7 +37,7 @@ dependencies {
     implementation(project(Modules.core))
 
     // compose
-    implementation(platform(Compose.bom))
+    implementation(platform(Compose.billOfMaterials))
     implementation(Compose.navigation)
 
     // hilt

@@ -11,7 +11,7 @@ import com.luisma.core_ui.components.WText
 @Composable
 fun HistoricEmpty(
     onTapBack: () -> Unit,
-    onTapFilter: (()-> Unit)?,
+    onTapFilter: (() -> Unit)?,
     text: String,
     isFilterApplied: Boolean,
 ) {
