@@ -73,6 +73,7 @@ fun HistoricTile(
                     ),
                     charState = uiCharStateMapper(wChar.state),
                     char = wChar.char,
+                    dimensions = boxDimensions
                 )
             }
         }

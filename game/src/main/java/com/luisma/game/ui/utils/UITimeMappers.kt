@@ -50,10 +50,12 @@ fun fullDataUIMapper(date: GameDate): String {
         return stringResource(dayOfWeekUIMapper(date.dayOfWeek))
     }
 
+    val month = stringResource(id = monthUIMapper(date.month))
+
     return stringResource(
         id = R.string.full_date,
         date.dayOfMonth,
-        monthUIMapper(date.month),
+        month,
         date.year
     )
 }
