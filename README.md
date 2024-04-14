@@ -1,6 +1,8 @@
 ## Palabri
 Wordle native android app in spanish 🇪🇸
 
+[![image](https://github.com/LuisMaGit/jetpackcompose-wordle/assets/70621340/d118f44b-5f27-406f-8436-35b9c33d0ad9)](https://play.google.com/store/apps/details?id=com.luisma.palabri&hl=en&gl=US)
+
 This app uses the same approach as the [NY Times Wordle](https://www.nytimes.com/games/wordle/index.html) but in spanish: a new 5 letter word is published every 24h and the user has 6 tries
 to guess it, also, in this version, the user can play incomplete old matchs. The app is fully off-line, uses an internal db.
 
