@@ -190,7 +190,7 @@ internal fun GamePlay(
             // ads
             AdMobBanner(
                 modifier = Modifier.padding(top = WSpacing.k20),
-                adId = stringResource(id = R.string.ad_mob_id)
+                adId = stringResource(id = R.string.add_mob_banner_id)
             )
         }
     }
