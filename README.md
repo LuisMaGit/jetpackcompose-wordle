@@ -14,7 +14,9 @@
 </div>
 </br>
 </br>
-The app uses the same approach as the [NY Times Wordle](https://www.nytimes.com/games/wordle/index.html) but in spanish: a new 5 letter word is published every 24h and the user has 6 tries
+
+
+The app uses the same approach as the <a href="https://www.nytimes.com/games/wordle/index.html">NY Times Wordle</a> but in spanish: a new 5 letter word is published every 24h and the user has 6 tries
 to guess it, also, in this version, the user can play incomplete old matchs. The app is fully off-line, uses an internal db.
 </br>
 </br>
