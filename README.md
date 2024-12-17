@@ -17,6 +17,7 @@
 The app uses the same approach as the [NY Times Wordle](https://www.nytimes.com/games/wordle/index.html) but in spanish: a new 5 letter word is published every 24h and the user has 6 tries
 to guess it, also, in this version, the user can play incomplete old matchs. The app is fully off-line, uses an internal db.
 </br>
+</br>
 <img width="170" height="340" alt="Screenshot 2024-03-17 at 15 22 10" src="https://github.com/LuisMaGit/jetpackcompose-wordle/assets/70621340/5b285cf1-1e8b-43b0-acee-91288567acd7">
 <img width="170" height="340" alt="Screenshot 2024-03-17 at 15 20 25" src="https://github.com/LuisMaGit/jetpackcompose-wordle/assets/70621340/98bd5148-fdc6-481e-bcad-e8d11aa3ed5a">
 <img width="170" height="340" alt="Screenshot 2024-03-17 at 15 22 06" src="https://github.com/LuisMaGit/jetpackcompose-wordle/assets/70621340/3eed44cf-c7af-44ee-a645-5b5a40815621">
