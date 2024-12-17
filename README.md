@@ -1,11 +1,22 @@
-## Palabri
-Wordle native android app in spanish 🇪🇸
 
-[![image](https://github.com/LuisMaGit/jetpackcompose-wordle/assets/70621340/d118f44b-5f27-406f-8436-35b9c33d0ad9)](https://play.google.com/store/apps/details?id=com.luisma.palabri&hl=en&gl=US)
+<p align="center">  
+  <img width="100" height = "100" alt="image" src="https://github.com/user-attachments/assets/4b56d23a-c2c5-45d9-b914-244efc82d7a9"/>
 
-This app uses the same approach as the [NY Times Wordle](https://www.nytimes.com/games/wordle/index.html) but in spanish: a new 5 letter word is published every 24h and the user has 6 tries
+  <h2 align="center">Palabri</h2>
+</p>
+
+<h3 align="center">Wordle native android app in spanish 🇪🇸</h3>
+
+<div align="center">
+<a align= "center" href = "https://play.google.com/store/apps/details?id=com.luisma.palabri&hl=en&gl=US">
+ <image width="200" height="60" src="https://github.com/LuisMaGit/jetpackcompose-wordle/assets/70621340/d118f44b-5f27-406f-8436-35b9c33d0ad9"></image>
+</a>
+</div>
+</br>
+</br>
+The app uses the same approach as the [NY Times Wordle](https://www.nytimes.com/games/wordle/index.html) but in spanish: a new 5 letter word is published every 24h and the user has 6 tries
 to guess it, also, in this version, the user can play incomplete old matchs. The app is fully off-line, uses an internal db.
-
+</br>
 <img width="170" height="340" alt="Screenshot 2024-03-17 at 15 22 10" src="https://github.com/LuisMaGit/jetpackcompose-wordle/assets/70621340/5b285cf1-1e8b-43b0-acee-91288567acd7">
 <img width="170" height="340" alt="Screenshot 2024-03-17 at 15 20 25" src="https://github.com/LuisMaGit/jetpackcompose-wordle/assets/70621340/98bd5148-fdc6-481e-bcad-e8d11aa3ed5a">
 <img width="170" height="340" alt="Screenshot 2024-03-17 at 15 22 06" src="https://github.com/LuisMaGit/jetpackcompose-wordle/assets/70621340/3eed44cf-c7af-44ee-a645-5b5a40815621">
