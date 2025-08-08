@@ -4,8 +4,8 @@ object ProjectConfig {
     const val compileSdk = 35
     const val minSdk = 26
     const val targetSdk = 35
-    const val versionCode = 7
-    const val versionName = "1.1.1"
+    const val versionCode = 8
+    const val versionName = "1.1.2"
 
     const val coreUIId = "${prefixApplicationId}.core_ui"
     const val coreId = "${prefixApplicationId}.core"

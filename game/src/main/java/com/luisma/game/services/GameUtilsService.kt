@@ -292,7 +292,7 @@ class GameUtilsService {
         )
 
         val mutablePlayingRow = playingRow.map { it }.toMutableList()
-        mutablePlayingRow.removeLast()
+        mutablePlayingRow.removeAt(mutablePlayingRow.lastIndex)
 
         val mutableLetterRows = lettersRow.toMutableMap()
         mutableLetterRows[cursorPosition.row] = getListCharsWithStateFromListChars(
