@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!--    reuse-->
+    <string name="jan">Enero</string>
+    <string name="feb">Febrero</string>
+    <string name="mar">Marzo</string>
+    <string name="apr">Abril</string>
+    <string name="may">Mayo</string>
+    <string name="jun">Junio</string>
+    <string name="jul">Julio</string>
+    <string name="aug">Agosto</string>
+    <string name="sep">Septiembre</string>
+    <string name="oct">Octubre</string>
+    <string name="nov">Noviembre</string>
+    <string name="dec">Deciembre</string>
+    <string name="today">Hoy</string>
+    <string name="yesterday">Ayer</string>
+    <string name="mon">Lunes</string>
+    <string name="tue">Martes</string>
+    <string name="wed">Miércoles</string>
+    <string name="thu">Jueves</string>
+    <string name="fri">Viernes</string>
+    <string name="sat">Sábado</string>
+    <string name="sun">Domingo</string>
+    <string name="full_date">%1$d de %2$s, %3$s</string>
+    <!--    game-->
+    <string name="game_enter_key">ENTER</string>
+    <string name="game_word_numb">Palabra: %1$d</string>
+    <string name="game_word_next_word_timer">Próxima palabra:</string>
+    <string name="game_lose_title">Perdiste ☹️</string>
+    <string name="game_lose_subtitle">La palabra correcta era:</string>
+    <string name="game_timer_header">La próxima palabra estará disponible en:</string>
+    <string name="game_next_word_time_h">h</string>
+    <string name="game_next_word_time_m">m</string>
+    <string name="game_next_word_time_s">s</string>
+    <string name="game_finish">Ya jugaste todas las palabras 🎉</string>
+    <!--    historic-->
+    <string name="historic_title">Tus partidas</string>
+    <string name="historic_empty">No tienes partidas aún</string>
+    <string name="historic_tile_on_time">Acertada a tiempo</string>
+    <string name="historic_tile_not_on_time">Acertada a destiempo</string>
+    <string name="historic_tile_playing">En juego</string>
+    <string name="historic_tile_lose">Perdiste</string>
+    <string name="historic_filter_empty">No hay resultados para el filtro aplicado</string>
+    <string name="historic_filter_title">Filtrar</string>
+    <string name="historic_filter_on_time">Acertadas a tiempo</string>
+    <string name="historic_filter_not_on_time">Acertadas a destiempo</string>
+    <string name="historic_filter_playing">En juego</string>
+    <string name="historic_filter_lose">Perdidas</string>
+    <string name="historic_filter_not_played">No juagadas</string>
+    <!--    stats-->
+    <string name="stats_title">Estadísticas</string>
+    <string name="stats_played">Jugados</string>
+    <string name="stats_wins">% Ganados</string>
+    <string name="stats_streak">Racha"</string>
+    <string name="stats_streak_record">Racha record</string>
+    <string name="stats_graph_title">Distribución de aciertos</string>
+    <!--    tutorial-->
+    <string name="tutorial_title">¿Cómo jugar?</string>
+    <string name="tutorial_subtitle">Adivina la palabra en 6 intentos.</string>
+    <string name="tutorial_bullet_point_1">Cada intento debe ser una palabra válida de 5 letras.</string>
+    <string name="tutorial_bullet_point_2">El color de las celdas cambiará en función de cuan cerca estuvo el intento.</string>
+    <string name="tutorial_example_title">Ejemplos</string>
+    <string name="tutorial_example_1">está en la palabra y en el lugar correcto.</string>
+    <string name="tutorial_example_2">está en la palabra pero no en el lugar correcto.</string>
+    <string name="tutorial_example_3">no está en la palabra en ningún lugar.</string>
+    <string name="tutorial_new_word">Una nueva palabra es publicada cada 24h.</string>
+</resources>

@@ -17,6 +17,7 @@ import com.luisma.game.ui.views.historic.HistoricViewState
 import kotlinx.collections.immutable.persistentListOf
 
 @Composable
+
 fun HistoricSuccess(
     state: HistoricViewState,
     events: (event: HistoricViewEvents) -> Unit
